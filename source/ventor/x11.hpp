@@ -31,7 +31,7 @@ typedef struct XExtData
 	int (*free_activate)(
 		struct XExtData *extencion
 	); 								// Function for free private data
-	XPointer pointer; 				// Data pointer
+	XPointer private_data; 		    // Data pointer
 };
 
 //////////////////////////////////////////////////////////////////
@@ -65,62 +65,61 @@ typedef struct XDisplay
 	int bitmap_bit_order;		   // LeastSignificant or MostSignificant 
 	int nformats;		    	   // Number of pixmap formats in list 
 	ScreenFormat *pixmap_format;   // Pixmap format list 
+	int release;		           // Server release
 };
 
 /////////////////////////////////////////////////////////////////
 
-extern "C" XDisplay* XOpenDisplay(
-	const char* // Display name
-);
+extern "C" 
+(
 
-///////////////////////////////////////////////////////////////////
+	XDisplay* XOpenDisplay(
+		const char* 			// Display name
+	);
 
-extern "C" XWindow XCreateSimpleWindow(
-	XDisplay*, 		// Display
-	XWindow,   		// Parent
-	int,       		// x
-	int,       		// y
-	unsigned int,   // width
-	unsigned int,   // height
-	unsigned int,   // border_width
-	unsigned long,  // border
-	unsigned long   // background
-);
+	XWindow XCreateSimpleWindow(
+		XDisplay*, 				// Display
+		XWindow,   				// Parent
+		int,       				// X
+		int,       				// Y
+		unsigned int,   		// Width
+		unsigned int,   		// Height
+		unsigned int,   		// Border_width
+		unsigned long,  		// Border
+		unsigned long   		// Background
+	);
 
-///////////////////////////////////////////////////////////////////
+	XWindow XCreateWindow(
+		XDisplay *, 			// Display
+		XWindow,    			// Parent
+		int,                    // X
+		int,                    // Y
+		unsigned int,           // Width
+		unsigned int,           // Height
+		unsigned int,           // Border_width
+		int,                    // Depth
+		unsigned int,           // Class
+		XVisual *,              // Visual
+		unsigned long,          // Valuemask
+		XSetWindowAttributes *  // Attributes
+    );
 
-extern "C" XWindow XCreateWindow(
-	XDisplay *, 
-	XWindow, 
-	int, 
-	int, 
-	unsigned int, 
-	unsigned int, 
-	unsigned int, 
-	int, 
-	unsigned int, 
-	XVisual *, 
-	unsigned long, 
-	XSetWindowAttributes *
-);
+	int XDestroyWindow(
+		XDisplay*,      		// Display
+		XWindow,        		// Parent
+	);
 
-///////////////////////////////////////////////////////////////////
-
-extern "C" int XDestroyWindow(
-	XDisplay*,      // Display
-	XWindow,        // Parent
-);
-
-///////////////////////////////////////////////////////////////////
-
-extern "C" int XCloseDisplay(
-	XDisplay*       // Display
-);
-
-///////////////////////////////////////////////////////////////////
-
-extern "C" int XPending(
-	XDisplay *      // Display
+	int XCloseDisplay(
+		XDisplay*       		// Display
+	);
+    
+	int XPending(
+		XDisplay *      		// Display
+	);
+	
+	int XFree(
+    	void*		   		    // Data
+	);
 );
 
 ///////////////////////////////////////////////////////////////////
