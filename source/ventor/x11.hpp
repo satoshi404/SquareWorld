@@ -12,26 +12,41 @@
 	#include "conflict.hpp"
 #else
 
+//////////////////////////////////////////////////////////////////
+
 typedef char* XPointer;
+typedef unsigned long XID;
+
+//////////////////////////////////////////////////////////////////
+
+typedef XID XWindow;
+
+//////////////////////////////////////////////////////////////////
 
 typedef struct XExtData 
 {
-	int number;             // Extencion number
-	struct XExtData *next;   // Next item in list
+	int number;             		// Extencion number
+	struct XExtData *next;  		// Next item in list
 	int (*free_activate)(
 		struct XExtData *extencion
-	); // Function for free private data
-	XPointer pointer; // Data pointer
+	); 								// Function for free private data
+	XPointer pointer; 				// Data pointer
 };
+
+//////////////////////////////////////////////////////////////////
 
 typedef struct XDisplay 
 {
-	XExtData* data; // Hook extencion data
-	void* private1; // ..
-	int fd;         // NetworkSocket
- };
+	XExtData* data; 		 // Hook extencion data
+	void* private1; 		 // ..
+	int fd;         		 // NetworkSocket
+	int private2;   		 // ..
+	int proto_major_version; // major version of server's X protocol 
+	int proto_minor_version; // minor version of servers X protocol 
+	char *vendor;		     // vendor of the server hardware 
+};
 
-//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 extern XDisplay* XOpenDisplay(
 	const char* // Display name
@@ -51,8 +66,23 @@ extern XWindow XCreateSimpleWindow(
 	unsigned long   // background
 );
 
-/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
+extern int XDestroyWindow(
+	XDisplay*,      // Display
+	XWindow,        // Parent
+);
+
+///////////////////////////////////////////////////////////////////
+
+extern int XCloseDisplay(
+	XDisplay*       // Display
+);
+
+///////////////////////////////////////////////////////////////////
 
 #endif
 
-#endif // x11.hpp
+///////////////////////////////////////////////////////////////////
+	#endif //// x11.hpp ////
+///////////////////////////////////////////////////////////////////
