@@ -1,6 +1,7 @@
 #ifndef X11
 #define X11
 
+
 #include "config.hpp"
 
 #if ORIGINAL_HEADERS

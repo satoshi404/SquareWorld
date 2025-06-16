@@ -1,3 +1,22 @@
-#pragma once 
+#ifndef CONFIG 
+#define CONFIG
 
-#define ORIGINAL_HEADERS 0
+#define ENABLE  1
+#define DISABLE 0
+
+#define ORIGINAL_HEADERS  DISABLE
+#define CONTEXT_WINDOW    ENABLE
+
+#if CONTEXT_WINDOW
+#define CONTEXT_NAKED DISABLE
+#else 
+#define CONTEXT_NAKED ENABLE
+#endif
+
+#if !CONTEXT_NAKED
+#define CONTEXT_OPENGL ENABLE
+#else
+#define CONTEXT_OPENGL DISABLE
+#endif
+
+#endif 
