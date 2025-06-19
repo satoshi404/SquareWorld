@@ -4,6 +4,10 @@
 #include <thread>
 #include <chrono>
 
+
+
+#define Sleep(time)  std::this_thread::sleep_for(std::chrono::seconds(time));
+
 int main() {
     XDisplay *display = XOpenDisplay(NULL);
     if (display == NULL) {
@@ -21,8 +25,8 @@ int main() {
 
     XMapWindow(display, window);
     XFlush(display);
-
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    
+    Sleep(5);
     
     XCloseDisplay(display);
     return 0;

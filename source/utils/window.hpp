@@ -6,31 +6,34 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #if defined(PLATFORM_LINUX)
-
 #include "../ventor/x11.hpp"
+#else
+#error "PLATFORM NOT SUPPORTED"
+#endif
 
 typedef struct Window 
 {
-    XDisplay* dpy;
-    XWindow window;
-    int screen;
+
+    #if defined(PLATFORM_LINUX)
+        XDisplay* dpy;
+        XWindow window;
+        int screen;
+    #endif
 
     #if CONTEXT_OPENGL
-        GC 
+        #if defined(PLATFORM_LINUX)
+            //GLXContext glContext; // OpenGL context for X11
+            //GLXFBConfig fbConfig; // Framebuffer configuration for OpenGL
+        #endif
     #endif
+
+    void (*Destroy)(struct Window* self);
 
 };
 
-///////////////////////////////////////////////////////////////////////////////
 
-#elif defined(PLATFORM_WINDOWS)
 
-// ..
 
-#else
-
-    #error "PLATFORM NOT SUPPORTED"
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
     #endif ///// window.hpp ///////
