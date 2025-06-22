@@ -1,3 +1,3 @@
 set -xe
 
-g++ -o app source/main.cpp  -lX11
+g++ -o app source/main.cpp source/utils/window.cpp  -lX11

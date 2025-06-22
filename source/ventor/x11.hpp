@@ -187,6 +187,12 @@ extern "C"
 	int XFree(
     	void*		   		    // Data
 	);
+
+	int XStoreName(
+		XDisplay*,              // Display
+		XWindow,                // X
+		const char* name       // Window name
+	);
 };
 
 ///////////////////////////////////////////////////////////////////

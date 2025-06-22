@@ -11,8 +11,21 @@
 #error "PLATFORM NOT SUPPORTED"
 #endif
 
+#define INDICE unsigned int 
+
+enum STATUS_CREATOR {
+    NOT_CREATED = 0xfb,
+    CREATED     = 0xff
+};
+
 typedef struct Window 
 {
+
+        INDICE indice; // Window indice
+        STATUS_CREATOR private0 = NOT_CREATED; // Window created 
+
+        unsigned int initialized = 0; // False
+        
 
     #if defined(PLATFORM_LINUX)
         XDisplay* dpy;
@@ -27,13 +40,10 @@ typedef struct Window
         #endif
     #endif
 
-    void (*Destroy)(struct Window* self);
-
 };
-
-
-
-
+void WindowInit(Window* window);
+void WindowShow(Window* window);
+void WindowDestroy(Window* window);
 
 ///////////////////////////////////////////////////////////////////////////////
     #endif ///// window.hpp ///////
