@@ -11,9 +11,9 @@ int main() {
     creator.Create();
     creator.Create();
     
-    //creator.ShowAll();
+    creator.ShowAll();
 
-    creator.ShowByIndice(12);
+    //creator.ShowByIndice(1);  // 0 to 1
     Sleep(5);
     
     return 0;

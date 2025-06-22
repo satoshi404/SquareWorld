@@ -7,8 +7,7 @@
 class WindowCreator {
 
     std::vector<Window> windowList;
-
-    unsigned int indice = 0;
+    INDICE indice_count = 0;
 
     unsigned int FoundIndice(INDICE indice) {
         for (Window& window : windowList) {
@@ -27,11 +26,12 @@ class WindowCreator {
             windowList.clear();
         }
 
-        void Create() {
+        void Create(const char* title = "", unsigned int w = 0, unsigned int h = 0) {
             Window window;
-            window.indice = indice++;
             window.private0 = CREATED;
+            window.indice = indice_count++;
             WindowInit(&window);
+            //WindowSetTitle(&window, title);
             windowList.push_back(window);
         };
 
@@ -44,7 +44,7 @@ class WindowCreator {
         void ShowByIndice(INDICE indice) { WindowShow(&windowList.at(FoundIndice(indice))); }
 
         Window GetFist() const {  return windowList.at(0); }
-        Window GetLast() const {  return windowList.at(indice); }
+        Window GetLast() const {  return windowList.at(windowList.size() - 1); }
 
         size_t GetSizeList() const { return windowList.size(); }
 

@@ -21,7 +21,7 @@ enum STATUS_CREATOR {
 typedef struct Window 
 {
 
-        INDICE indice; // Window indice
+        INDICE indice = 0; // Window indice
         STATUS_CREATOR private0 = NOT_CREATED; // Window created 
 
         unsigned int initialized = 0; // False
@@ -42,6 +42,7 @@ typedef struct Window
 
 };
 void WindowInit(Window* window);
+void WindowSetTitle(Window* window, const char* title);
 void WindowShow(Window* window);
 void WindowDestroy(Window* window);
 
