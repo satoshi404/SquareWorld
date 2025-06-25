@@ -18,13 +18,13 @@ enum STATUS_CREATOR {
     CREATED     = 0xff
 };
 
-typedef struct Window 
+struct Window 
 {
 
         INDICE indice = 0; // Window indice
         STATUS_CREATOR private0 = NOT_CREATED; // Window created 
 
-        unsigned int initialized = 0; // False
+        unsigned int initialised = 0; // False
         
 
     #if defined(PLATFORM_LINUX)

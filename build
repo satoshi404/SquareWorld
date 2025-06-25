@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -xe  # Exit on error and print commands as they are executed
+
+# Array of C++ source files
+sources_cpp_files=(
+    "source/main.cpp"
+    "source/utils/window.cpp"
+)
+
+# Function to compile the source files
+compile() {
+    g++ -o app "${sources_cpp_files[@]}" -lX11
+}
+
+# Check command-line arguments
+if [ "$1" = "compile" ]; then
+    compile
+elif [ "$1" = "run" ]; then
+    # Compile first, then run the app
+    compile
+    ./app
+else
+    echo "Usage: $0 {compile|run}"
+    exit 1
+fi

@@ -26,7 +26,7 @@ void WindowInit(Window* window) {
     std::string name = std::string(DEF_WINDOW_T) + std::to_string(window->indice);
     XStoreName(window->dpy, window->window, name.c_str() );
 
-    window->initialized = 1; // True
+    window->initialised = 1; // True
 }
 
 void WindowSetTitle(Window* window, const char* title) { 
@@ -34,14 +34,14 @@ void WindowSetTitle(Window* window, const char* title) {
 }
 
 void WindowShow(Window* window) {
-    if (window->initialized == 0) throw std::runtime_error("Window not initialized");
+    if (window->initialised == 0) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
     XMapWindow(window->dpy, window->window);
     XFlush(window->dpy);
 }
 
 void WindowDestroy(Window* window) {
-    if (window->initialized == 0) throw std::runtime_error("Window not initialized");
+    if (window->initialised == 0) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
     XDestroyWindow(window->dpy, window->window);
     XCloseDisplay(window->dpy);

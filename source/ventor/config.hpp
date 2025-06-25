@@ -4,19 +4,18 @@
 #define ENABLE  1
 #define DISABLE 0
 
-#define ORIGINAL_HEADERS  DISABLE
-#define CONTEXT_WINDOW    ENABLE
+#define CONTEXT_WINDOW    ENABLE // Enable use X11 without opengl or Disable with opengl
 
 #if CONTEXT_WINDOW
-#define CONTEXT_NAKED DISABLE
+    #define CONTEXT_NAKED DISABLE
 #else 
-#define CONTEXT_NAKED ENABLE
+    #define CONTEXT_NAKED ENABLE
 #endif
 
 #if !CONTEXT_NAKED
-#define CONTEXT_OPENGL ENABLE
+    #define CONTEXT_OPENGL ENABLE
 #else
-#define CONTEXT_OPENGL DISABLE
+    #define CONTEXT_OPENGL DISABLE
 #endif
 
 #endif 

@@ -4,15 +4,6 @@
 
 #include "config.hpp"
 
-#if ORIGINAL_HEADERS
-	#include "conflict.hpp"
-		#include <X11/Xlib.h>
-		#include <X11/Xutil.h>
-		#include <X11/Xatom.h>
-		#include <X11/XKBlib.h>
-	#include "conflict.hpp"
-#else
-
 #include <stdbool.h>
 
 //////////////////////////////////////////////////////////////////
@@ -33,7 +24,7 @@ typedef XID Cursor;
 
 //////////////////////////////////////////////////////////////////
 
-typedef struct XExtData 
+struct XExtData 
 {
 	int number;             	   // Extencion number
 	struct XExtData *next;  	   // Next item in list
@@ -45,7 +36,7 @@ typedef struct XExtData
 
 //////////////////////////////////////////////////////////////////
 
-typedef struct ScreenFormat 
+struct ScreenFormat 
 {
 	XExtData* data;         	   // Hook extencion data
 	int depth;              	   // Image depth
@@ -55,7 +46,7 @@ typedef struct ScreenFormat
 
 //////////////////////////////////////////////////////////////////
 
-typedef struct XDisplay 
+struct XDisplay 
 {
 	XExtData* data; 		 	   // Hook extencion data
 	void* private1; 	     	   // ..
@@ -87,7 +78,7 @@ typedef struct XDisplay
 
 /////////////////////////////////////////////////////////////////
 
-typedef struct 
+struct XVisual 
 {
 	XExtData* data;                // Hook extencion data
 	VisualID visualid;             // Visual id of this visual
@@ -97,11 +88,11 @@ typedef struct
 	unsigned long blue_mask;	   // Mask value blue
 	int bits_per_rgb;	           // log base 2 of distinct color values 
 	int map_entries;			   // color map entries 
-} XVisual;
+};
 
 /////////////////////////////////////////////////////////////////
 
-typedef struct 
+struct XSetWindowAttributes
 {
     Pixmap background_pixmap;	    // Background or None or ParentRelative 
     unsigned long background_pixel;	// Background pixel 
@@ -118,7 +109,7 @@ typedef struct
     Bool override_redirect;			// Boolean value for override-redirect 
     Colormap colormap;				// Color map to be associated with window 
     Cursor cursor;					// Cursor to be displayed (or None) 
-} XSetWindowAttributes;
+};
 
 /////////////////////////////////////////////////////////////////
 
@@ -196,8 +187,6 @@ extern "C"
 };
 
 ///////////////////////////////////////////////////////////////////
-
-#endif
 
 ///////////////////////////////////////////////////////////////////
 	#endif //// x11.hpp ////
