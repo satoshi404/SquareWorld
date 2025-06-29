@@ -23,7 +23,7 @@ enum STATUS_CREATOR {
     CREATED     = 0xff
 };
 
-struct Window 
+struct MyWindow 
 {
         INDICE indice = 0; // Window indice
         STATUS_CREATOR private0 = NOT_CREATED; // Window created 
@@ -46,10 +46,10 @@ struct Window
 };
 
 
-void WindowInit(Window* window);
-void WindowSetTitle(Window* window, const char* title);
-void WindowShow(Window* window);
-void WindowDestroy(Window* window);
+void WindowInit(MyWindow* window);
+void WindowSetTitle(MyWindow* window, const char* title);
+void WindowShow(MyWindow* window);
+void WindowDestroy(MyWindow* window);
 
 ///////////////////////////////////////////////////////////////////////////////
     #endif ///// window.hpp ///////

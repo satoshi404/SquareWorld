@@ -7,8 +7,9 @@ constexpr const char* DEF_WINDOW_T = "Window ";
 #define DEF_WINDOW_W  800
 #define DEF_WINDOW_H  800
 
-void WindowInit(Window* window) {
+void WindowInit(MyWindow* window) {
 
+    
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
 
     window->dpy = XOpenDisplay(nullptr);
@@ -29,18 +30,18 @@ void WindowInit(Window* window) {
     window->initialised = 1; // True
 }
 
-void WindowSetTitle(Window* window, const char* title) { 
+void WindowSetTitle(MyWindow* window, const char* title) { 
     XStoreName(window->dpy, window->window, title);
 }
 
-void WindowShow(Window* window) {
+void WindowShow(MyWindow* window) {
     if (window->initialised == 0) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
     XMapWindow(window->dpy, window->window);
     XFlush(window->dpy);
 }
 
-void WindowDestroy(Window* window) {
+void WindowDestroy(MyWindow* window) {
     if (window->initialised == 0) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
     XDestroyWindow(window->dpy, window->window);

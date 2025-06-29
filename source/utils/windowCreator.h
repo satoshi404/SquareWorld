@@ -6,11 +6,11 @@
 
 class WindowCreator {
 
-    std::vector<Window> windowList;
+    std::vector<MyWindow> windowList;
     INDICE indice_count = 0;
 
     unsigned int FoundIndice(INDICE indice) {
-        for (Window& window : windowList) {
+        for (MyWindow& window : windowList) {
             if (window.indice == indice) return indice;
         }
         throw std::runtime_error("Not found indice in window list");
@@ -19,7 +19,7 @@ class WindowCreator {
     public:
         WindowCreator() : windowList() {};
         ~WindowCreator() {
-            for (Window& window : windowList) {
+            for (MyWindow& window : windowList) {
                 WindowDestroy(&window);
             }          
 
@@ -27,7 +27,7 @@ class WindowCreator {
         }
 
         void Create(const char* title = "", unsigned int w = 0, unsigned int h = 0) {
-            Window window;
+            MyWindow window;
             window.private0 = CREATED;
             window.indice = indice_count++;
             WindowInit(&window);
@@ -36,17 +36,17 @@ class WindowCreator {
         };
 
         void ShowAll() {
-            for (Window& window : windowList)  {
+            for (MyWindow& window : windowList)  {
                WindowShow(&window);
             }
         }
 
         void ShowByIndice(INDICE indice) { WindowShow(&windowList.at(FoundIndice(indice))); }
 
-        Window GetFist() const {  return windowList.at(0); }
-        Window GetLast() const {  return windowList.at(windowList.size() - 1); }
+        MyWindow GetFist() const {  return windowList.at(0); }
+        MyWindow GetLast() const {  return windowList.at(windowList.size() - 1); }
 
         size_t GetSizeList() const { return windowList.size(); }
 
-        Window GetByIndice(INDICE indice) { return windowList.at(FoundIndice(indice)); }
+        MyWindow GetByIndice(INDICE indice) { return windowList.at(FoundIndice(indice)); }
 };

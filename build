@@ -10,7 +10,7 @@ sources_cpp_files=(
 
 # Function to compile the source files
 compile() {
-    g++ -o app "${sources_cpp_files[@]}" -lX11
+    g++ -o bin/engine "${sources_cpp_files[@]}" -lX11
 }
 
 # Check command-line arguments
