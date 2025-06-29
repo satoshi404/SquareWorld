@@ -55,17 +55,29 @@ layout (location = 0) in vec3 aPos;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+out vec3 fragPos;
 void main() {
+    fragPos = vec3(model * vec4(aPos, 1.0));
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
 )";
 
 static const char* defaultFragmentShader = R"(
 #version 330 core
+in vec3 fragPos;
 out vec4 FragColor;
 uniform vec4 color;
+uniform vec3 lightPos;
+uniform vec3 lightDir;
+uniform vec4 lightColor;
+uniform float lightCutoff;
+uniform float lightIntensity;
 void main() {
-    FragColor = color;
+    vec3 lightDirNorm = normalize(lightDir);
+    float theta = dot(-lightDirNorm, normalize(fragPos - lightPos));
+    float cutoff = cos(radians(lightCutoff));
+    float lightEffect = lightIntensity * max(theta > cutoff ? theta : 0.0, 0.0);
+    FragColor = color * lightColor * (lightEffect + 0.1); // Add ambient to ensure visibility
 }
 )";
 
@@ -150,13 +162,10 @@ void Renderer::init() {
     glDepthFunc(GL_LESS);
 }
 
-
 void Renderer::render() {
-    // Clear color and depth buffers
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set viewport
     if (window) {
         int width, height;
         SDL_GetWindowSize(window->GetWindow(), &width, &height);
@@ -174,6 +183,21 @@ void Renderer::render() {
     glm::mat4 projection = camera->getProjectionMatrix();
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, &projection[0][0]);
+
+    if (!spotlights.empty()) {
+        Spotlight* light = spotlights[0];
+        glUniform3fv(glGetUniformLocation(shaderProgram, "lightPos"), 1, &light->getPosition()[0]);
+        glUniform3fv(glGetUniformLocation(shaderProgram, "lightDir"), 1, &light->getDirection()[0]);
+        glUniform4fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, &light->getColor()[0]);
+        glUniform1f(glGetUniformLocation(shaderProgram, "lightCutoff"), light->getCutoff());
+        glUniform1f(glGetUniformLocation(shaderProgram, "lightIntensity"), light->getIntensity());
+    } else {
+        glUniform3f(glGetUniformLocation(shaderProgram, "lightPos"), 0.0f, 0.0f, 0.0f);
+        glUniform3f(glGetUniformLocation(shaderProgram, "lightDir"), 0.0f, 0.0f, -1.0f);
+        glUniform4f(glGetUniformLocation(shaderProgram, "lightColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+        glUniform1f(glGetUniformLocation(shaderProgram, "lightCutoff"), 12.5f);
+        glUniform1f(glGetUniformLocation(shaderProgram, "lightIntensity"), 1.0f);
+    }
 
     for (Shape* shape : shapes) {
         glm::mat4 model = glm::mat4(1.0f);
