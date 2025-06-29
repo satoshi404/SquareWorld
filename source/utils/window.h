@@ -1,12 +1,17 @@
 #ifndef WINDOW
 #define WINDOW
 
-#include "../ventor/platform.hpp"
+#include "../ventor/platform.h"
+
+#include <GL/gl.h>
+#include <GL/glx.h>
 
 //////////////////////////////////////////////////////////////////////////////
 
 #if defined(PLATFORM_LINUX)
-#include "../ventor/x11.hpp"
+#include "../ventor/x11.h"
+#elif defined(PLATFORM_WINDOWS)
+#error "NOT IMPLEMENTED YET"
 #else
 #error "PLATFORM NOT SUPPORTED"
 #endif
@@ -20,27 +25,27 @@ enum STATUS_CREATOR {
 
 struct Window 
 {
-
         INDICE indice = 0; // Window indice
         STATUS_CREATOR private0 = NOT_CREATED; // Window created 
 
         unsigned int initialised = 0; // False
-        
 
-    #if defined(PLATFORM_LINUX)
+    #if LINUX_IMPL
         XDisplay* dpy;
         XWindow window;
         int screen;
     #endif
 
     #if CONTEXT_OPENGL
-        #if defined(PLATFORM_LINUX)
-            //GLXContext glContext; // OpenGL context for X11
-            //GLXFBConfig fbConfig; // Framebuffer configuration for OpenGL
+        #if LINUX_IMPL
+            GLXContext glContext; // OpenGL context for X11
+            GLXFBConfig fbConfig; // Framebuffer configuration for OpenGL
         #endif
     #endif
 
 };
+
+
 void WindowInit(Window* window);
 void WindowSetTitle(Window* window, const char* title);
 void WindowShow(Window* window);

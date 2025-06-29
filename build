@@ -19,7 +19,7 @@ if [ "$1" = "compile" ]; then
 elif [ "$1" = "run" ]; then
     # Compile first, then run the app
     compile
-    ./app
+    ./bin/engine
 else
     echo "Usage: $0 {compile|run}"
     exit 1

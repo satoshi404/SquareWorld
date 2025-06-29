@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <stdexcept>
-#include "window.hpp"
+#include "window.h"
 
 class WindowCreator {
 

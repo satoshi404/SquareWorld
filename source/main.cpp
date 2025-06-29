@@ -1,4 +1,4 @@
-#include "utils/windowCreator.hpp"
+#include "utils/windowCreator.h"
 
 #include <stdexcept>
 #include <thread>
