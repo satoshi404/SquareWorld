@@ -5,8 +5,9 @@
 
 #if FROM_SCRATCH 
 
-	#define GLX_CONTEXT_MAJOR_VERSION_ARB       0x2091
-	#define GLX_CONTEXT_MINOR_VERSION_ARB       0x2092
+	#define DefaultScreen(dpy) 	(((XDisplay)(dpy))->default_screen)
+	#define ScreenOfDisplay(dpy, scr)(&((XDisplay)(dpy))->screens[scr])
+	#define RootWindow(dpy, scr) 	(ScreenOfDisplay(dpy,scr)->root)
 
 	//////////////////////////////////////////////////////////////////
 
@@ -50,32 +51,55 @@
 
 	struct XDisplay 
 	{
-		XExtData* data; 		 	   // Hook extencion data
-		void* private1; 	     	   // ..
-		int fd;         		 	   // NetworkSocket
-		int private2;   	     	   
-		int proto_major_version; 	   // major version of server's X protocol 
-		int proto_minor_version; 	   // minor version of servers X protocol 
-		char *vendor;		     	   // vendor of the server hardware 
-		XID private3;
-		XID private4;
-		XID private5;
-		int private6;
-		int private8; 
-		XID (*resource_alloc) (
-			struct XDisplay*
-		);							   // Allocator function 
-		int byte_order;				   // Screen byte order, LSBFirst, MSBFirst 
-		int bitmap_unit;	    	   // Padding and data requirements 
-		int bitmap_pad;		    	   // Padding requirements on bitmaps 
-		int bitmap_bit_order;		   // LeastSignificant or MostSignificant 
-		int nformats;		    	   // Number of pixmap formats in list 
-		ScreenFormat *pixmap_format;   // Pixmap format list 
-		int release;		           // Server release
-		void* private9;
-		void* private10;
-		int qlen;	                   // Lenght of input event queue
-
+		XExtData* data; 		 	  		 // Hook extencion data
+		void* private1; 	     	  		 // ..
+		int fd;         		 	  		 // NetworkSocket
+		int private2;   	     	  		 
+		int proto_major_version; 	  		 // major version of server's X protocol 
+		int proto_minor_version; 	  		 // minor version of servers X protocol 
+		char *vendor;		     	  		 // vendor of the server hardware 
+		XID private3;		
+		XID private4;		
+		XID private5;		
+		int private6;		
+		int private8; 		
+		XID (*resource_alloc) (		
+			struct XDisplay*		
+		);							  		 // Allocator function 
+		int byte_order;				  		 // Screen byte order, LSBFirst, MSBFirst 
+		int bitmap_unit;	    	  		 // Padding and data requirements 
+		int bitmap_pad;		    	  		 // Padding requirements on bitmaps 
+		int bitmap_bit_order;		  		 // LeastSignificant or MostSignificant 
+		int nformats;		    	  		 // Number of pixmap formats in list 
+		ScreenFormat *pixmap_format;  		 // Pixmap format list 
+		int release;		          		 // Server release
+		void* private9;		
+		void* private10;		
+		int qlen;	                  		 // Lenght of input event queue
+		unsigned long last_request_read;     // Seq number of last event read 
+		unsigned long request;			     // Sequence number of last request
+		XPointer private11;					 
+		XPointer private12;					 //  -_-
+		XPointer private13;					 //  ^_^					
+		XPointer private14;					 
+		unsigned max_request_size;			 // Maximum number 32 bit words in request
+		struct _XrmHashBucketRec *db;
+		int (*private15)(
+			struct _XDisplay*
+			);
+		char *display_name;					// "host:display" string used on this connect
+		int default_screen;					// Default screen for operations 
+		int nscreens;						// Number of screens on this server
+		Screen *screens;					// Pointer to list of screens 
+		unsigned long motion_buffer;		// Size of motion buffer 
+		unsigned long private16;
+		int min_keycode;					// Minimum defined keycode 
+		int max_keycode;					// Maximum defined keycode 
+		XPointer private17;
+		XPointer private18;
+		int private19;
+		char *xdefaults;					// Contents of defaults from server 
+		
 	};
 
 	/////////////////////////////////////////////////////////////////

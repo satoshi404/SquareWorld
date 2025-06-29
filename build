@@ -6,11 +6,14 @@ set -xe  # Exit on error and print commands as they are executed
 sources_cpp_files=(
     "source/main.cpp"
     "source/utils/window.cpp"
+    "source/utils/renderer.cpp"
+    "source/utils/shape.cpp"
 )
 
 # Function to compile the source files
 compile() {
-    g++ -o bin/engine "${sources_cpp_files[@]}" -lX11
+    g++ -o bin/engine -I thirdparty "${sources_cpp_files[@]}" -lX11 -lGL -lGLU -lGLEW
+    #g++ main.cpp window.cpp renderer.cpp shape.cpp windowCreator.cpp -o engine -lX11 -lGL -lGLU
 }
 
 # Check command-line arguments

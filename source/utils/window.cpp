@@ -1,49 +1,127 @@
 #include "window.h"
-
 #include <stdexcept>
 #include <string>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
-constexpr const char* DEF_WINDOW_T = "Window ";
-#define DEF_WINDOW_W  800
-#define DEF_WINDOW_H  800
-
-void WindowInit(MyWindow* window) {
-
-    
+void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXContext sharedContext) {
+    if (!window) throw std::runtime_error("Window pointer is null");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
 
     window->dpy = XOpenDisplay(nullptr);
     if (!window->dpy) throw std::runtime_error("Failed init X11");
 
-    window->window = XCreateSimpleWindow(
-        window->dpy, XDefaultRootWindow(window->dpy), 
-        10, 10, DEF_WINDOW_W, DEF_WINDOW_H, 1, 
-        0x0, 0xffffff
+    window->screen = DefaultScreen(window->dpy);
+
+    #if CONTEXT_OPENGL
+    GLint glxAttributes[] = {
+        GLX_RGBA,
+        GLX_DEPTH_SIZE, 24,
+        GLX_DOUBLEBUFFER,
+        None
+    };
+    
+    window->visual = glXChooseVisual(window->dpy, window->screen, glxAttributes);
+    if (!window->visual) {
+        XCloseDisplay(window->dpy);
+        throw std::runtime_error("No suitable visual found");
+    }
+
+    window->colormap = XCreateColormap(window->dpy, RootWindow(window->dpy, window->screen), window->visual->visual, AllocNone);
+
+    XSetWindowAttributes windowAttributes;
+    windowAttributes.colormap = window->colormap;
+    windowAttributes.event_mask = ExposureMask | KeyPressMask;
+
+    window->window = XCreateWindow(
+        window->dpy, RootWindow(window->dpy, window->screen), 0, 0, width, height, 0,
+        window->visual->depth, InputOutput, window->visual->visual,
+        CWColormap | CWEventMask, &windowAttributes
     );
     if (!window->window) {
-         throw std::runtime_error("Failed create window");
+        throw std::runtime_error("Failed create window");
     }
 
     std::string name = std::string(DEF_WINDOW_T) + std::to_string(window->indice);
-    XStoreName(window->dpy, window->window, name.c_str() );
+    XStoreName(window->dpy, window->window, name.c_str());
 
-    window->initialised = 1; // True
+    window->glContext = glXCreateContext(window->dpy, window->visual, sharedContext, GL_TRUE);
+    if (!window->glContext) {
+        XFreeColormap(window->dpy, window->colormap);
+        XFree(window->visual);
+        XCloseDisplay(window->dpy);
+        throw std::runtime_error("Failed to create GLX context");
+    }
+    if (!glXMakeCurrent(window->dpy, window->window, window->glContext)) {
+        glXDestroyContext(window->dpy, window->glContext);
+        XFreeColormap(window->dpy, window->colormap);
+        XFree(window->visual);
+        XCloseDisplay(window->dpy);
+        throw std::runtime_error("Failed to make GLX context current");
+    }
+
+    // Initialize GLEW
+    GLenum err = glewInit();
+    if (err != GLEW_OK) {
+        glXDestroyContext(window->dpy, window->glContext);
+        XFreeColormap(window->dpy, window->colormap);
+        XFree(window->visual);
+        XCloseDisplay(window->dpy);
+        throw std::runtime_error("Failed to initialize GLEW: " + std::string((const char*)glewGetErrorString(err)));
+    }
+
+    window->renderer = new Renderer(nullptr, nullptr);
+    // Renderer initialization is handled in WindowCreator::LoadFromJSON
+    #endif
+
+    window->initialised = 1;
 }
 
 void WindowSetTitle(MyWindow* window, const char* title) { 
+    if (!window->initialised) throw std::runtime_error("Window not initialised");
     XStoreName(window->dpy, window->window, title);
 }
 
 void WindowShow(MyWindow* window) {
-    if (window->initialised == 0) throw std::runtime_error("Window not initialised");
+    if (!window->initialised) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
     XMapWindow(window->dpy, window->window);
     XFlush(window->dpy);
 }
 
+void WindowDraw(MyWindow* window, int *state) {
+    #if CONTEXT_OPENGL
+    if (!glXMakeCurrent(window->dpy, window->window, window->glContext)) {
+        throw std::runtime_error("Failed to make GLX context current");
+    }
+    glViewport(0, 0, 800, 600);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    window->renderer->render();
+    glXSwapBuffers(window->dpy, window->window);
+    #endif
+
+    while (XPending(window->dpy)) {
+        XNextEvent(window->dpy, &window->event);
+        if (window->event.type == KeyPress) {
+            *state = 0;
+        }
+    }
+}
+
 void WindowDestroy(MyWindow* window) {
-    if (window->initialised == 0) throw std::runtime_error("Window not initialised");
+    if (!window->initialised) throw std::runtime_error("Window not initialised");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
+
+    #if CONTEXT_OPENGL
+    delete window->renderer;
+    glXMakeCurrent(window->dpy, None, NULL);
+    glXDestroyContext(window->dpy, window->glContext);
+    XFreeColormap(window->dpy, window->colormap);
+    XFree(window->visual);
+    #endif
     XDestroyWindow(window->dpy, window->window);
     XCloseDisplay(window->dpy);
 }

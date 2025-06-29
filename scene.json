@@ -1,0 +1,43 @@
+{
+  "windows": [
+    {
+      "type": "WINDOW_MAIN",
+      "title": "Main Game Window",
+      "width": 800,
+      "height": 600,
+      "shapes": [
+        {
+          "type": "triangle",
+          "vertices": [
+            { "x": 0.0, "y": 0.5, "r": 1.0, "g": 0.0, "b": 0.0 },
+            { "x": -0.5, "y": -0.5, "r": 0.0, "g": 1.0, "b": 0.0 },
+            { "x": 0.5, "y": -0.5, "r": 0.0, "g": 0.0, "b": 1.0 }
+          ]
+        },
+        {
+          "type": "circle",
+          "center": { "x": 0.0, "y": 0.0 },
+          "radius": 0.3,
+          "color": { "r": 1.0, "g": 1.0, "b": 0.0 },
+          "segments": 32
+        }
+      ]
+    },
+    {
+      "type": "WINDOW_DEBUG",
+      "title": "Debug Window",
+      "width": 400,
+      "height": 300,
+      "shapes": [
+       
+
+ {
+          "type": "cube",
+          "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+          "size": 0.5,
+          "color": { "r": 0.5, "g": 0.5, "b": 1.0 }
+        }
+      ]
+    }
+  ]
+}
