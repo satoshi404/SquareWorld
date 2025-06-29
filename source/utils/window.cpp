@@ -4,13 +4,6 @@
 #include "nlohmann/json.hpp"
 #include <fstream>
 
-#include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
-
-#include <ventor/impl_glx.h>
-
-
-// Static ImGui context to be shared across all windows
 static bool g_ImGuiInitialized = false;
 
 void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXContext sharedContext, WindowType type) {
@@ -81,7 +74,6 @@ void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXCo
 
     window->renderer = new Renderer(nullptr, nullptr);
 
-    // Initialize ImGui context and backends only once
     if (!g_ImGuiInitialized) {
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
@@ -112,17 +104,25 @@ void WindowDraw(MyWindow* window, int *state, std::vector<Renderer*>& allRendere
     if (!glXMakeCurrent(window->dpy, window->window, window->glContext)) {
         throw std::runtime_error("Failed to make GLX context current");
     }
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 800, 600); // Should be dynamic
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
-    window->renderer->render();
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGLX_NewFrame();
-    window->renderer->setupImGui();
-    window->renderer->renderImGui(window->type == WINDOW_DEBUG, window->renderer->getFPS(), allRenderers);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    if (window->type == WINDOW_HIERARCHY) {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGLX_NewFrame();
+        window->renderer->setupImGui();
+        window->renderer->renderImGui(false, 0.0f, allRenderers);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    } else {
+        window->renderer->render();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGLX_NewFrame();
+        window->renderer->setupImGui();
+        window->renderer->renderImGui(window->type == WINDOW_DEBUG, window->renderer->getFPS(), allRenderers);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
     glXSwapBuffers(window->dpy, window->window);
     #endif
 

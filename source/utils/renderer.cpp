@@ -3,6 +3,8 @@
 #include <string>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GL/glx.h>
+#include <fstream>
+
 
 static const char* defaultVertexShader = R"(
 #version 330 core
@@ -214,12 +216,14 @@ void Renderer::loadFromJSON(const nlohmann::json& json) {
             throw std::runtime_error("Unknown shape type: " + type);
         }
     }
+
+    // Initialize newly loaded shapes
+    init();
 }
 
 void Renderer::setupImGui() {
     ImGui::NewFrame();
 }
-
 void Renderer::renderImGui(bool isDebugWindow, float fps, std::vector<Renderer*>& allRenderers) {
     if (isDebugWindow) {
         ImGui::Begin("Debug Info");
@@ -233,13 +237,35 @@ void Renderer::renderImGui(bool isDebugWindow, float fps, std::vector<Renderer*>
                     float pos[3] = {json["vertices"][i]["x"].get<float>(),
                                     json["vertices"][i]["y"].get<float>(),
                                     json["vertices"][i]["z"].get<float>()};
+                    float col[3] = {json["vertices"][i]["r"].get<float>(),
+                                    json["vertices"][i]["g"].get<float>(),
+                                    json["vertices"][i]["b"].get<float>()};
                     if (ImGui::InputFloat3(("Position##" + std::to_string(i)).c_str(), pos)) {
                         json["vertices"][i]["x"] = pos[0];
                         json["vertices"][i]["y"] = pos[1];
                         json["vertices"][i]["z"] = pos[2];
+                    }
+                    if (ImGui::InputFloat3(("Color##" + std::to_string(i)).c_str(), col)) {
+                        json["vertices"][i]["r"] = col[0];
+                        json["vertices"][i]["g"] = col[1];
+                        json["vertices"][i]["b"] = col[2];
+                    }
+                }
+                if (ImGui::Button("Apply")) {
+                    try {
                         shapes.clear();
-                        loadFromJSON(json);
+                        shapes.push_back(new Triangle({
+                            {json["vertices"][0]["x"].get<float>(), json["vertices"][0]["y"].get<float>(), json["vertices"][0]["z"].get<float>(),
+                             json["vertices"][0]["r"].get<float>(), json["vertices"][0]["g"].get<float>(), json["vertices"][0]["b"].get<float>(), 0.0f, 0.0f},
+                            {json["vertices"][1]["x"].get<float>(), json["vertices"][1]["y"].get<float>(), json["vertices"][1]["z"].get<float>(),
+                             json["vertices"][1]["r"].get<float>(), json["vertices"][1]["g"].get<float>(), json["vertices"][1]["b"].get<float>(), 0.0f, 0.0f},
+                            {json["vertices"][2]["x"].get<float>(), json["vertices"][2]["y"].get<float>(), json["vertices"][2]["z"].get<float>(),
+                             json["vertices"][2]["r"].get<float>(), json["vertices"][2]["g"].get<float>(), json["vertices"][2]["b"].get<float>(), 0.0f, 0.0f}
+                        }));
                         init();
+                        ImGui::Text("Triangle updated successfully!");
+                    } catch (const std::exception& e) {
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", e.what());
                     }
                 }
             } else if (selectedShape->getType() == "circle") {
@@ -256,23 +282,33 @@ void Renderer::renderImGui(bool isDebugWindow, float fps, std::vector<Renderer*>
                     json["center"]["y"] = center[1];
                     json["center"]["z"] = center[2];
                 }
-                if (ImGui::InputFloat("Radius", &radius)) json["radius"] = radius;
+                if (ImGui::InputFloat("Radius", &radius, 0.1f, 1.0f, "%.2f")) json["radius"] = radius;
                 if (ImGui::InputFloat3("Color", color)) {
                     json["color"]["r"] = color[0];
                     json["color"]["g"] = color[1];
                     json["color"]["b"] = color[2];
                 }
-                if (ImGui::InputInt("Segments", &segments)) json["segments"] = segments;
+                if (ImGui::InputInt("Segments", &segments, 1, 100)) json["segments"] = segments;
                 if (ImGui::Button("Apply")) {
-                    shapes.clear();
-                    loadFromJSON(json);
-                    init();
+                    try {
+                        if (radius <= 0.0f) throw std::runtime_error("Radius must be positive");
+                        if (segments < 3) throw std::runtime_error("Segments must be at least 3");
+                        shapes.clear();
+                        shapes.push_back(new Circle(
+                            {center[0], center[1], center[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                            radius, segments, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}
+                        ));
+                        init();
+                        ImGui::Text("Circle updated successfully!");
+                    } catch (const std::exception& e) {
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", e.what());
+                    }
                 }
-            } else if (selectedShape->getType() == "cube" || selectedShape->getType() == "mesh") {
+            } else if (selectedShape->getType() == "cube") {
                 float pos[3] = {json["position"]["x"].get<float>(),
                                 json["position"]["y"].get<float>(),
                                 json["position"]["z"].get<float>()};
-                float size = json.contains("size") ? json["size"].get<float>() : json["scale"].get<float>();
+                float size = json["size"].get<float>();
                 float color[3] = {json["color"]["r"].get<float>(),
                                   json["color"]["g"].get<float>(),
                                   json["color"]["b"].get<float>()};
@@ -281,125 +317,271 @@ void Renderer::renderImGui(bool isDebugWindow, float fps, std::vector<Renderer*>
                     json["position"]["y"] = pos[1];
                     json["position"]["z"] = pos[2];
                 }
-                if (ImGui::InputFloat("Size/Scale", &size)) {
-                    if (selectedShape->getType() == "cube") json["size"] = size;
-                    else json["scale"] = size;
-                }
-                if (selectedShape->getType() == "cube") {
-                    if (ImGui::InputFloat3("Color", color)) {
-                        json["color"]["r"] = color[0];
-                        json["color"]["g"] = color[1];
-                        json["color"]["b"] = color[2];
-                    }
+                if (ImGui::InputFloat("Size", &size, 0.1f, 1.0f, "%.2f")) json["size"] = size;
+                if (ImGui::InputFloat3("Color", color)) {
+                    json["color"]["r"] = color[0];
+                    json["color"]["g"] = color[1];
+                    json["color"]["b"] = color[2];
                 }
                 if (ImGui::Button("Apply")) {
-                    shapes.clear();
-                    loadFromJSON(json);
-                    init();
+                    try {
+                        if (size <= 0.0f) throw std::runtime_error("Size must be positive");
+                        shapes.clear();
+                        shapes.push_back(new Cube(
+                            {pos[0], pos[1], pos[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                            size, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}
+                        ));
+                        init();
+                        ImGui::Text("Cube updated successfully!");
+                    } catch (const std::exception& e) {
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", e.what());
+                    }
+                }
+            } else if (selectedShape->getType() == "mesh") {
+                float pos[3] = {json["position"]["x"].get<float>(),
+                                json["position"]["y"].get<float>(),
+                                json["position"]["z"].get<float>()};
+                float scale = json["scale"].get<float>();
+                if (ImGui::InputFloat3("Position", pos)) {
+                    json["position"]["x"] = pos[0];
+                    json["position"]["y"] = pos[1];
+                    json["position"]["z"] = pos[2];
+                }
+                if (ImGui::InputFloat("Scale", &scale, 0.1f, 1.0f, "%.2f")) json["scale"] = scale;
+                if (ImGui::Button("Apply")) {
+                    try {
+                        if (scale <= 0.0f) throw std::runtime_error("Scale must be positive");
+                        shapes.clear();
+                        shapes.push_back(new Mesh(
+                            json["obj_file"].get<std::string>(),
+                            json["texture_file"].get<std::string>(),
+                            glm::vec3(pos[0], pos[1], pos[2]), scale
+                        ));
+                        init();
+                        ImGui::Text("Mesh updated successfully!");
+                    } catch (const std::exception& e) {
+                        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", e.what());
+                    }
                 }
             }
         }
+        if (ImGui::Button("Save Scene")) {
+            nlohmann::json json;
+            if (camera) camera->updateJSON(json["camera"]);
+            for (Shape* shape : shapes) {
+                nlohmann::json shapeJson;
+                shape->updateJSON(shapeJson);
+                json["shapes"].push_back(shapeJson);
+            }
+            std::ofstream file("scene.json");
+            if (file.is_open()) {
+                file << json.dump(2);
+                file.close();
+                ImGui::Text("Scene saved successfully!");
+            } else {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Failed to save scene.json");
+            }
+        }
         ImGui::End();
-    } else if (ImGui::GetIO().WantCaptureMouse) {
+    } else {
         ImGui::Begin("Add Element");
         static int shapeType = 0;
+        static bool added = false;
+        static bool error = false;
+        static std::string errorMsg;
+        ImGui::Text("Select a shape to add:");
         ImGui::Combo("Shape Type", &shapeType, "Triangle\0Circle\0Cube\0Mesh\0");
         static nlohmann::json newShape;
         if (shapeType == 0) { // Triangle
             static float vertices[9] = {0.0f, 0.5f, 0.0f, -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f};
             static float colors[9] = {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f};
-            ImGui::InputFloat3("Vertex 1", &vertices[0]);
-            ImGui::InputFloat3("Vertex 2", &vertices[3]);
-            ImGui::InputFloat3("Vertex 3", &vertices[6]);
-            ImGui::InputFloat3("Color 1", &colors[0]);
-            ImGui::InputFloat3("Color 2", &colors[3]);
-            ImGui::InputFloat3("Color 3", &colors[6]);
+            ImGui::Text("Triangle Vertices");
+            ImGui::InputFloat3("Vertex 1", &vertices[0], "%.2f");
+            ImGui::InputFloat3("Vertex 2", &vertices[3], "%.2f");
+            ImGui::InputFloat3("Vertex 3", &vertices[6], "%.2f");
+            ImGui::Text("Vertex Colors");
+            ImGui::InputFloat3("Color 1", &colors[0], "%.2f");
+            ImGui::InputFloat3("Color 2", &colors[3], "%.2f");
+            ImGui::InputFloat3("Color 3", &colors[6], "%.2f");
             if (ImGui::Button("Add Triangle")) {
-                newShape = {
-                    {"type", "triangle"},
-                    {"vertices", {
-                        {{"x", vertices[0]}, {"y", vertices[1]}, {"z", vertices[2]}, {"r", colors[0]}, {"g", colors[1]}, {"b", colors[2]}},
-                        {{"x", vertices[3]}, {"y", vertices[4]}, {"z", vertices[5]}, {"r", colors[3]}, {"g", colors[4]}, {"b", colors[5]}},
-                        {{"x", vertices[6]}, {"y", vertices[7]}, {"z", vertices[8]}, {"r", colors[6]}, {"g", colors[7]}, {"b", colors[8]}}
-                    }}
-                };
-                shapes.push_back(new Triangle({
-                    {vertices[0], vertices[1], vertices[2], colors[0], colors[1], colors[2], 0.0f, 0.0f},
-                    {vertices[3], vertices[4], vertices[5], colors[3], colors[4], colors[5], 0.0f, 0.0f},
-                    {vertices[6], vertices[7], vertices[8], colors[6], colors[7], colors[8], 0.0f, 0.0f}
-                }));
-                shapes.back()->init(shaderProgram);
+                try {
+                    newShape = {
+                        {"type", "triangle"},
+                        {"vertices", {
+                            {{"x", vertices[0]}, {"y", vertices[1]}, {"z", vertices[2]}, {"r", colors[0]}, {"g", colors[1]}, {"b", colors[2]}},
+                            {{"x", vertices[3]}, {"y", vertices[4]}, {"z", vertices[5]}, {"r", colors[3]}, {"g", colors[4]}, {"b", colors[5]}},
+                            {{"x", vertices[6]}, {"y", vertices[7]}, {"z", vertices[8]}, {"r", colors[6]}, {"g", colors[7]}, {"b", colors[8]}}
+                        }}
+                    };
+                    shapes.push_back(new Triangle({
+                        {vertices[0], vertices[1], vertices[2], colors[0], colors[1], colors[2], 0.0f, 0.0f},
+                        {vertices[3], vertices[4], vertices[5], colors[3], colors[4], colors[5], 0.0f, 0.0f},
+                        {vertices[6], vertices[7], vertices[8], colors[6], colors[7], colors[8], 0.0f, 0.0f}
+                    }));
+                    shapes.back()->init(shaderProgram);
+                    added = true;
+                    error = false;
+                } catch (const std::exception& e) {
+                    error = true;
+                    errorMsg = e.what();
+                }
             }
+            if (ImGui::Button("Reset")) {
+                vertices[0] = 0.0f; vertices[1] = 0.5f; vertices[2] = 0.0f;
+                vertices[3] = -0.5f; vertices[4] = -0.5f; vertices[5] = 0.0f;
+                vertices[6] = 0.5f; vertices[7] = -0.5f; vertices[8] = 0.0f;
+                colors[0] = 1.0f; colors[1] = 0.0f; colors[2] = 0.0f;
+                colors[3] = 0.0f; colors[4] = 1.0f; colors[5] = 0.0f;
+                colors[6] = 0.0f; colors[7] = 0.0f; colors[8] = 1.0f;
+                error = false;
+                added = false;
+            }
+            if (added) ImGui::Text("Triangle added successfully!");
+            if (error) ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", errorMsg.c_str());
         } else if (shapeType == 1) { // Circle
             static float center[3] = {0.0f, 0.0f, 0.0f};
             static float radius = 0.3f;
             static float color[3] = {1.0f, 1.0f, 0.0f};
             static int segments = 32;
-            ImGui::InputFloat3("Center", center);
-            ImGui::InputFloat("Radius", &radius);
-            ImGui::InputFloat3("Color", color);
-            ImGui::InputInt("Segments", &segments);
+            ImGui::Text("Circle Properties");
+            ImGui::InputFloat3("Center", center, "%.2f");
+            ImGui::InputFloat("Radius", &radius, 0.1f, 1.0f, "%.2f");
+            ImGui::InputFloat3("Color", color, "%.2f");
+            ImGui::InputInt("Segments", &segments, 1, 100);
             if (ImGui::Button("Add Circle")) {
-                newShape = {
-                    {"type", "circle"},
-                    {"center", {{"x", center[0]}, {"y", center[1]}, {"z", center[2]}}},
-                    {"radius", radius},
-                    {"color", {{"r", color[0]}, {"g", color[1]}, {"b", color[2]}}},
-                    {"segments", segments}
-                };
-                shapes.push_back(new Circle({center[0], center[1], center[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-                                           radius, segments, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}));
-                shapes.back()->init(shaderProgram);
+                try {
+                    if (radius <= 0.0f) throw std::runtime_error("Radius must be positive");
+                    if (segments < 3) throw std::runtime_error("Segments must be at least 3");
+                    newShape = {
+                        {"type", "circle"},
+                        {"center", {{"x", center[0]}, {"y", center[1]}, {"z", center[2]}}},
+                        {"radius", radius},
+                        {"color", {{"r", color[0]}, {"g", color[1]}, {"b", color[2]}}},
+                        {"segments", segments}
+                    };
+                    shapes.push_back(new Circle(
+                        {center[0], center[1], center[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                        radius, segments, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}
+                    ));
+                    shapes.back()->init(shaderProgram);
+                    added = true;
+                    error = false;
+                } catch (const std::exception& e) {
+                    error = true;
+                    errorMsg = e.what();
+                }
             }
+            if (ImGui::Button("Reset")) {
+                std::fill(center, center + 3, 0.0f);
+                radius = 0.3f;
+                color[0] = color[1] = 1.0f; color[2] = 0.0f;
+                segments = 32;
+                error = false;
+                added = false;
+            }
+            if (added) ImGui::Text("Circle added successfully!");
+            if (error) ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", errorMsg.c_str());
         } else if (shapeType == 2) { // Cube
             static float pos[3] = {0.0f, 0.0f, 0.0f};
             static float size = 0.5f;
             static float color[3] = {0.5f, 0.5f, 1.0f};
-            ImGui::InputFloat3("Position", pos);
-            ImGui::InputFloat("Size", &size);
-            ImGui::InputFloat3("Color", color);
+            ImGui::Text("Cube Properties");
+            ImGui::InputFloat3("Position", pos, "%.2f");
+            ImGui::InputFloat("Size", &size, 0.1f, 1.0f, "%.2f");
+            ImGui::InputFloat3("Color", color, "%.2f");
             if (ImGui::Button("Add Cube")) {
-                newShape = {
-                    {"type", "cube"},
-                    {"position", {{"x", pos[0]}, {"y", pos[1]}, {"z", pos[2]}}},
-                    {"size", size},
-                    {"color", {{"r", color[0]}, {"g", color[1]}, {"b", color[2]}}}
-                };
-                shapes.push_back(new Cube({pos[0], pos[1], pos[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-                                         size, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}));
-                shapes.back()->init(shaderProgram);
+                try {
+                    if (size <= 0.0f) throw std::runtime_error("Size must be positive");
+                    newShape = {
+                        {"type", "cube"},
+                        {"position", {{"x", pos[0]}, {"y", pos[1]}, {"z", pos[2]}}},
+                        {"size", size},
+                        {"color", {{"r", color[0]}, {"g", color[1]}, {"b", color[2]}}}
+                    };
+                    shapes.push_back(new Cube(
+                        {pos[0], pos[1], pos[2], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                        size, {0.0f, 0.0f, 0.0f, color[0], color[1], color[2], 0.0f, 0.0f}
+                    ));
+                    shapes.back()->init(shaderProgram);
+                    added = true;
+                    error = false;
+                } catch (const std::exception& e) {
+                    error = true;
+                    errorMsg = e.what();
+                }
             }
+            if (ImGui::Button("Reset")) {
+                std::fill(pos, pos + 3, 0.0f);
+                size = 0.5f;
+                color[0] = color[1] = 0.5f; color[2] = 1.0f;
+                error = false;
+                added = false;
+            }
+            if (added) ImGui::Text("Cube added successfully!");
+            if (error) ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", errorMsg.c_str());
         } else if (shapeType == 3) { // Mesh
             static char objFile[256] = "cube.obj";
             static char textureFile[256] = "texture.png";
             static float pos[3] = {0.0f, 0.0f, 0.0f};
             static float scale = 0.5f;
+            ImGui::Text("Mesh Properties");
             ImGui::InputText("OBJ File", objFile, 256);
             ImGui::InputText("Texture File", textureFile, 256);
-            ImGui::InputFloat3("Position", pos);
-            ImGui::InputFloat("Scale", &scale);
+            ImGui::InputFloat3("Position", pos, "%.2f");
+            ImGui::InputFloat("Scale", &scale, 0.1f, 1.0f, "%.2f");
             if (ImGui::Button("Add Mesh")) {
-                newShape = {
-                    {"type", "mesh"},
-                    {"obj_file", objFile},
-                    {"texture_file", textureFile},
-                    {"position", {{"x", pos[0]}, {"y", pos[1]}, {"z", pos[2]}}},
-                    {"scale", scale}
-                };
-                shapes.push_back(new Mesh(objFile, textureFile, glm::vec3(pos[0], pos[1], pos[2]), scale));
-                shapes.back()->init(shaderProgram);
+                try {
+                    if (scale <= 0.0f) throw std::runtime_error("Scale must be positive");
+                    if (std::string(objFile).empty()) throw std::runtime_error("OBJ file path cannot be empty");
+                    if (std::string(textureFile).empty()) throw std::runtime_error("Texture file path cannot be empty");
+                    newShape = {
+                        {"type", "mesh"},
+                        {"obj_file", objFile},
+                        {"texture_file", textureFile},
+                        {"position", {{"x", pos[0]}, {"y", pos[1]}, {"z", pos[2]}}},
+                        {"scale", scale}
+                    };
+                    shapes.push_back(new Mesh(objFile, textureFile, glm::vec3(pos[0], pos[1], pos[2]), scale));
+                    shapes.back()->init(shaderProgram);
+                    added = true;
+                    error = false;
+                } catch (const std::exception& e) {
+                    error = true;
+                    errorMsg = e.what();
+                }
             }
+            if (ImGui::Button("Reset")) {
+                strcpy(objFile, "cube.obj");
+                strcpy(textureFile, "texture.png");
+                std::fill(pos, pos + 3, 0.0f);
+                scale = 0.5f;
+                error = false;
+                added = false;
+            }
+            if (added) ImGui::Text("Mesh added successfully!");
+            if (error) ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Error: %s", errorMsg.c_str());
         }
         ImGui::End();
-    } else {
+        // Hierarchy window
         ImGui::Begin("Hierarchy");
         for (size_t i = 0; i < allRenderers.size(); ++i) {
             std::string windowName = "Window " + std::to_string(i);
             if (ImGui::TreeNode(windowName.c_str())) {
                 for (size_t j = 0; j < allRenderers[i]->getShapes().size(); ++j) {
                     std::string shapeName = allRenderers[i]->getShapes()[j]->getType() + " " + std::to_string(j);
-                    if (ImGui::Selectable(shapeName.c_str())) {
+                    if (ImGui::Selectable(shapeName.c_str(), allRenderers[i]->getSelectedShape() == allRenderers[i]->getShapes()[j])) {
+                        for (Renderer* r : allRenderers) r->setSelectedShape(nullptr);
                         allRenderers[i]->setSelectedShape(allRenderers[i]->getShapes()[j]);
+                    }
+                    if (ImGui::BeginPopupContextItem(("Context##" + shapeName).c_str())) {
+                        if (ImGui::MenuItem("Delete")) {
+                            delete allRenderers[i]->getShapes()[j];
+                            allRenderers[i]->getShapes().erase(allRenderers[i]->getShapes().begin() + j);
+                            if (allRenderers[i]->getSelectedShape() == allRenderers[i]->getShapes()[j]) {
+                                allRenderers[i]->setSelectedShape(nullptr);
+                            }
+                        }
+                        ImGui::EndPopup();
                     }
                 }
                 ImGui::TreePop();
@@ -417,5 +599,5 @@ float Renderer::getFPS() const {
     auto currentTime = high_resolution_clock::now();
     float deltaTime = duration_cast<duration<float>>(currentTime - start).count();
     start = currentTime;
-    return 1.0f / deltaTime;
+    return deltaTime > 0.0f ? 1.0f / deltaTime : 0.0f;
 }

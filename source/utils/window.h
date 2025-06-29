@@ -15,8 +15,8 @@
 #error "PLATFORM NOT SUPPORTED"
 #endif
 
-#include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
+///#include <imgui/imgui.h>
+///#include <imgui/backends/imgui_impl_opengl3.h>
 #include <ventor/impl_glx.h>
 
 #define INDICE unsigned int 
