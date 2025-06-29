@@ -1,51 +1,110 @@
+```cpp
+#include "renderer.h"
+#include "window.h"
+#include <stdexcept>
+#include <string>
+#include <glm/gtc/matrix_transform.hpp>
+#include <fstream>
+#include <imgui.h>
+#include <imgui/backends/imgui_impl_sdl2.h>
+#include <algorithm>
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <queue>
 
-{
-    "windows": [
-        {
-            "type": "WINDOW_MAIN",
-            "width": 800,
-            "height": 600,
-            "title": "Main Window",
-            "camera": {
-                "position": [0.0, 0.0, 3.0],
-                "rotation": [0.0, 0.0, 0.0],
-                "fov": 45.0,
-                "aspect": 1.333333
-            },
-            "shapes": [
-                {
-                    "type": "Circle",
-                    "position": [0.0, 0.0, 0.0],
-                    "scale": [1.0, 1.0, 1.0],
-                    "rotation": [0.0, 0.0, 0.0],
-                    "color": [1.0, 0.0, 0.0, 1.0]
-                },
-                {
-                    "type": "Cube",
-                    "position": [1.0, 1.0, 0.0],
-                    "scale": [0.5, 0.5, 0.5],
-                    "rotation": [45.0, 45.0, 0.0],
-                    "color": [0.0, 1.0, 0.0, 1.0]
-                },
-                {
-                    "type": "Mesh",
-                    "objPath": "cube.obj",
-                    "position": [-1.0, -1.0, 0.0],
-                    "scale": [0.5, 0.5, 0.5],
-                    "rotation": [0.0, 0.0, 0.0],
-                    "color": [0.0, 0.0, 1.0, 1.0]
-                }
-            ],
-            "spotlights": [
-                {
-                    "name": "Spotlight1",
-                    "position": [0.0, 0.0, 2.0],
-                    "direction": [0.0, 0.0, -1.0],
-                    "color": [1.0, 1.0, 1.0, 1.0],
-                    "cutoff": 12.5,
-                    "intensity": 1.0
-                }
-            ]
-        }
-    ]
+
+Renderer::Renderer(const char* vertexShaderSource, const char* fragmentShaderSource) {
+    shaderProgram = 0;
+    debugShaderProgram = 0;
+    camera = nullptr;
+    selectedShape = nullptr;
+    selectedSpotlight = nullptr;
+    selectedGameCamera = nullptr;
+    lastFrameTime = std::chrono::high_resolution_clock::now();
+    window = nullptr;
+    type = WINDOW_MAIN;
+    try {
+        createShaderProgram(
+            vertexShaderSource ? vertexShaderSource : defaultVertexShader,
+            fragmentShaderSource ? fragmentShaderSource : defaultFragmentShader
+        );
+        createDebugShaderProgram();
+    } catch (const std::exception& e) {
+        std::cerr << "Renderer initialization failed: " << e.what() << std::endl;
+        throw;
+    }
 }
+
+// ... (createShaderProgram, createDebugShaderProgram, compileShader unchanged)
+
+void Renderer::init() {
+    if (!camera) {
+        camera = new Camera();
+        camera->setAspect(1.0f);
+    }
+
+    for (Shape* shape : shapes) {
+        try {
+            shape->init();
+        } catch (const std::exception& e) {
+            std::cerr << "Shape init failed: " << e.what() << std::endl;
+        }
+    }
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+}
+
+void Renderer::render() {
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (window) {
+        int width, height;
+        SDL_GetWindowSize(window->GetWindow(), &width, &height);
+        glViewport(0, 0, width, height);
+        updateCameraAspect(static_cast<float>(width) / height);
+    }
+
+    // Render shapes
+    try {
+        glUseProgram(shaderProgram);
+
+        GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
+        GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
+        GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+
+        glm::mat4 view = camera->getViewMatrix();
+        glm::mat4 projection = camera->getProjectionMatrix();
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, &projection[0][0]);
+
+        if (!spotlights.empty()) {
+            Spotlight* light = spotlights[0];
+            glUniform3fv(glGetUniformLocation(shaderProgram, "lightPos"), 1, &light->getPosition()[0]);
+            glUniform3fv(glGetUniformLocation(shaderProgram, "lightDir"), 1, &light->getDirection()[0]);
+            glUniform4fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, &light->getColor()[0]);
+            glUniform1f(glGetUniformLocation(shaderProgram, "lightCutoff"), light->getCutoff());
+            glUniform1f(glGetUniformLocation(shaderProgram, "lightIntensity"), light->getIntensity());
+        } else {
+            glUniform3fv(glGetUniformLocation(shaderProgram, "lightPos"), 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
+            glUniform3fv(glGetUniformLocation(shaderProgram, "lightDir"), 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, -1.0f)));
+            glUniform4fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+            glUniform1f(glGetUniformLocation(shaderProgram, "lightCutoff"), 12.5f);
+            glUniform1f(glGetUniformLocation(shaderProgram, "lightIntensity"), 1.0f);
+        }
+
+        for (Shape* shape : shapes) {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, shape->getPosition());
+            model = glm::rotate(model, glm::radians(shape->getRotation().x), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(shape->getRotation().y), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(shape->getRotation().z), glm::vec3(0.0f, 0.0f, 1.0f));
+            model = glm::scale(model, shape->getScale());
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
+            glUniform4fv(glGetUniformLocation(shaderProgram, "color"), 1, &shape->getColor()[0]);
+            shape->draw(shaderProgram);
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Shape rendering failed: " << e.what() << std::endl

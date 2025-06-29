@@ -14,6 +14,7 @@ add_executable(YourProject
     source/utils/renderer.cpp
         source/utils/spotlight.cpp
             source/utils/mesh.cpp
+    source/utils/gamecamera.cpp
     source/utils/shape.cpp
     source/utils/camera.cpp
     thirdparty/imgui/imgui.cpp

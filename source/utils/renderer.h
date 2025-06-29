@@ -7,6 +7,7 @@
 #include "mesh.h"
 #include "spotlight.h"
 #include "camera.h"
+#include "gamecamera.h" // Added
 #include "window.h"
 #include "nlohmann/json.hpp"
 #include <chrono>
@@ -22,12 +23,16 @@ class Renderer {
 private:
     void compileShader(GLenum type, const char* source, GLuint& shader);
     void createShaderProgram(const char* vertexSource, const char* fragmentSource);
+    void createDebugShaderProgram();
     GLuint shaderProgram;
+    GLuint debugShaderProgram;
     std::vector<Shape*> shapes;
-    std::vector<Spotlight*> spotlights; // Added
+    std::vector<Spotlight*> spotlights;
+    std::vector<GameCamera*> gameCameras; // Added
     Camera* camera;
     Shape* selectedShape;
-    Spotlight* selectedSpotlight; // Added
+    Spotlight* selectedSpotlight;
+    GameCamera* selectedGameCamera; // Added
     mutable std::chrono::high_resolution_clock::time_point lastFrameTime;
     std::mutex shapeMutex;
     std::queue<Shape*> pendingShapes;
@@ -44,11 +49,14 @@ public:
     void renderImGui(bool isDebugWindow, float fps, std::vector<Renderer*>& allRenderers);
     float getFPS() const;
     std::vector<Shape*>& getShapes() { return shapes; }
-    std::vector<Spotlight*>& getSpotlights() { return spotlights; } // Added
+    std::vector<Spotlight*>& getSpotlights() { return spotlights; }
+    std::vector<GameCamera*>& getGameCameras() { return gameCameras; } // Added
     Shape* getSelectedShape() const { return selectedShape; }
     void setSelectedShape(Shape* shape) { selectedShape = shape; }
-    Spotlight* getSelectedSpotlight() const { return selectedSpotlight; } // Added
-    void setSelectedSpotlight(Spotlight* light) { selectedSpotlight = light; } // Added
+    Spotlight* getSelectedSpotlight() const { return selectedSpotlight; }
+    void setSelectedSpotlight(Spotlight* light) { selectedSpotlight = light; }
+    GameCamera* getSelectedGameCamera() const { return selectedGameCamera; } // Added
+    void setSelectedGameCamera(GameCamera* cam) { selectedGameCamera = cam; } // Added
     void updateCameraAspect(float aspect);
     void SetType(WindowType tp) { type = tp; }
     void SetWindow(Window* wm) { window = wm; }
