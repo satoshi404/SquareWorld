@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/satoshi/Documentos/likeEngine/source/ventor",
-      "program": "/home/satoshi/Documentos/likeEngine/source/ventor/build/Debug/outDebug",
+      "cwd": "/home/satoshi/Documentos/likeEngine",
+      "program": "/home/satoshi/Documentos/likeEngine/build/Release/outRelease",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -1,71 +1,40 @@
-#ifndef WINDOW
-#define WINDOW
+#pragma once
 
-#include "../ventor/platform.h"
-#include "renderer.h"
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <GL/glx.h>
+#include <SDL2/SDL.h>
+#include <string>
+#include <nlohmann/json.hpp>
+#include <vector>
 
-#if defined(PLATFORM_LINUX)
-#include "../ventor/x11.h"
-#elif defined(PLATFORM_WINDOWS)
-#error "NOT IMPLEMENTED YET"
-#else
-#error "PLATFORM NOT SUPPORTED"
-#endif
+// Forward declaration of Renderer
+class Renderer;
 
-///#include <imgui/imgui.h>
-///#include <imgui/backends/imgui_impl_opengl3.h>
-#include <ventor/impl_glx.h>
-
-#define INDICE unsigned int 
-
-constexpr const char* DEF_WINDOW_T = "Window ";
-#define DEF_WINDOW_W  800
-#define DEF_WINDOW_H  60
-
-enum STATUS_CREATOR {
-    NOT_CREATED = 0xfb,
-    CREATED     = 0xff
-};
-
+// Define WindowType enum
 enum WindowType {
     WINDOW_MAIN,
     WINDOW_DEBUG,
-    WINDOW_GUI,
-    WINDOW_HIERARCHY
+    WINDOW_HIERARCHY,
+    WINDOW_GUI
 };
 
-struct MyWindow 
-{
-    INDICE indice = 0; // Window indice
-    STATUS_CREATOR private0 = NOT_CREATED; // Window created 
-    unsigned int initialised = 0; // False
-    Renderer* renderer; // Renderer for this window
+class Window {
+private:
+    SDL_Window* window;
+    SDL_GLContext glContext;
+    unsigned int width, height;
+    float aspect;
+    std::string title;
+    static int indice;
+    static bool g_ImGuiInitialized;
+
+public:
+    Renderer* renderer;
     WindowType type;
-
-    #if LINUX_IMPL
-    XDisplay* dpy;
-    XWindow window;
-    XEvent event;
-    int screen;
-    #endif
-
-    #if CONTEXT_OPENGL
-    #if LINUX_IMPL
-    GLXContext glContext; // OpenGL context for X11
-    GLXFBConfig fbConfig; // Framebuffer configuration for OpenGL
-    XVisualInfo *visual;
-    Colormap colormap;
-    #endif
-    #endif
+    Window(unsigned int width, unsigned int height, SDL_GLContext sharedContext = nullptr, WindowType type = WINDOW_MAIN);
+    ~Window();
+    void SetTitle(const char* title);
+    void Show();
+    void LoadFromJSON(const nlohmann::json& json);
+    void Draw(int* state, std::vector<Renderer*>& allRenderers);
+    SDL_Window* GetWindow() const { return window; }
+    SDL_GLContext GetGLContext() const { return glContext; } // Added
 };
-
-void WindowInit(MyWindow* window, unsigned int width = 800, unsigned int height = 600, GLXContext sharedContext = nullptr, WindowType type = WINDOW_MAIN);
-void WindowSetTitle(MyWindow* window, const char* title);
-void WindowDraw(MyWindow* window, int *state, std::vector<Renderer*>& allRenderers);
-void WindowShow(MyWindow* window);
-void WindowDestroy(MyWindow* window);
-
-#endif // window.h
