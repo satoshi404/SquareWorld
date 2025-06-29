@@ -2,24 +2,45 @@
   "windows": [
     {
       "type": "WINDOW_MAIN",
-      "title": "Main Game Window",
+      "title": "Main Window",
       "width": 800,
       "height": 600,
+      "camera": {
+        "position": { "x": 0.0, "y": 0.0, "z": 3.0 },
+        "target": { "x": 0.0, "y": 0.0, "z": 0.0 },
+        "fov": 45.0,
+        "aspect": 1.333,
+        "near": 0.1,
+        "far": 100.0
+      },
       "shapes": [
         {
           "type": "triangle",
           "vertices": [
-            { "x": 0.0, "y": 0.5, "r": 1.0, "g": 0.0, "b": 0.0 },
-            { "x": -0.5, "y": -0.5, "r": 0.0, "g": 1.0, "b": 0.0 },
-            { "x": 0.5, "y": -0.5, "r": 0.0, "g": 0.0, "b": 1.0 }
+            { "x": 0.0, "y": 0.5, "z": 0.0, "r": 1.0, "g": 0.0, "b": 0.0 },
+            { "x": -0.5, "y": -0.5, "z": 0.0, "r": 0.0, "g": 1.0, "b": 0.0 },
+            { "x": 0.5, "y": -0.5, "z": 0.0, "r": 0.0, "g": 0.0, "b": 1.0 }
           ]
         },
         {
           "type": "circle",
-          "center": { "x": 0.0, "y": 0.0 },
+          "center": { "x": 0.0, "y": 0.0, "z": 0.0 },
           "radius": 0.3,
           "color": { "r": 1.0, "g": 1.0, "b": 0.0 },
           "segments": 32
+        },
+        {
+          "type": "cube",
+          "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+          "size": 0.5,
+          "color": { "r": 0.5, "g": 0.5, "b": 1.0 }
+        },
+        {
+          "type": "mesh",
+          "obj_file": "cube.obj",
+          "texture_file": "texture.png",
+          "position": { "x": 1.0, "y": 0.0, "z": 0.0 },
+          "scale": 0.5
         }
       ]
     },
@@ -27,17 +48,13 @@
       "type": "WINDOW_DEBUG",
       "title": "Debug Window",
       "width": 400,
-      "height": 300,
-      "shapes": [
-       
-
- {
-          "type": "cube",
-          "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-          "size": 0.5,
-          "color": { "r": 0.5, "g": 0.5, "b": 1.0 }
-        }
-      ]
+      "height": 300
+    },
+    {
+      "type": "WINDOW_HIERARCHY",
+      "title": "Hierarchy",
+      "width": 300,
+      "height": 600
     }
   ]
 }

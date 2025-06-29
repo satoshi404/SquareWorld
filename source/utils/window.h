@@ -15,17 +15,26 @@
 #error "PLATFORM NOT SUPPORTED"
 #endif
 
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+#include <ventor/impl_glx.h>
+
+#define INDICE unsigned int 
 
 constexpr const char* DEF_WINDOW_T = "Window ";
 #define DEF_WINDOW_W  800
-#define DEF_WINDOW_H  600
-
-
-#define INDICE unsigned int 
+#define DEF_WINDOW_H  60
 
 enum STATUS_CREATOR {
     NOT_CREATED = 0xfb,
     CREATED     = 0xff
+};
+
+enum WindowType {
+    WINDOW_MAIN,
+    WINDOW_DEBUG,
+    WINDOW_GUI,
+    WINDOW_HIERARCHY
 };
 
 struct MyWindow 
@@ -34,6 +43,7 @@ struct MyWindow
     STATUS_CREATOR private0 = NOT_CREATED; // Window created 
     unsigned int initialised = 0; // False
     Renderer* renderer; // Renderer for this window
+    WindowType type;
 
     #if LINUX_IMPL
     XDisplay* dpy;
@@ -52,9 +62,9 @@ struct MyWindow
     #endif
 };
 
-void WindowInit(MyWindow* window, unsigned int width = 800, unsigned int height = 600, GLXContext sharedContext = nullptr);
+void WindowInit(MyWindow* window, unsigned int width = 800, unsigned int height = 600, GLXContext sharedContext = nullptr, WindowType type = WINDOW_MAIN);
 void WindowSetTitle(MyWindow* window, const char* title);
-void WindowDraw(MyWindow* window, int *state);
+void WindowDraw(MyWindow* window, int *state, std::vector<Renderer*>& allRenderers);
 void WindowShow(MyWindow* window);
 void WindowDestroy(MyWindow* window);
 

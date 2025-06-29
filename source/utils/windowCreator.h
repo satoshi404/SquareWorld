@@ -5,13 +5,8 @@
 #include <fstream>
 #include <unistd.h>
 #include "window.h"
+#include <iostream>
 #include <nlohmann/json.hpp>
-
-enum WindowType {
-    WINDOW_MAIN,
-    WINDOW_DEBUG,
-    WINDOW_GUI
-};
 
 class WindowCreator {
     std::vector<MyWindow> windowList;
@@ -39,7 +34,7 @@ public:
         window.private0 = CREATED;
         window.indice = indice_count++;
         GLXContext sharedContext = windowList.empty() ? nullptr : windowList[0].glContext;
-        WindowInit(&window, w ? w : DEF_WINDOW_W, h ? h : DEF_WINDOW_H, sharedContext);
+        WindowInit(&window, w ? w : DEF_WINDOW_W, h ? h : DEF_WINDOW_H, sharedContext, type);
         windowList.push_back(window);
         WindowShow(&window);
         if (title && *title) {
@@ -55,30 +50,53 @@ public:
         nlohmann::json json;
         file >> json;
 
+        std::cerr << "JSON: " << json.dump(2) << std::endl;
+
+        if (!json.contains("windows") || !json["windows"].is_array()) {
+            throw std::runtime_error("JSON missing 'windows' array");
+        }
+
         for (const auto& win : json["windows"]) {
+            if (!win.contains("type") || !win["type"].is_string()) {
+                throw std::runtime_error("Window missing 'type' field");
+            }
             std::string typeStr = win["type"].get<std::string>();
             WindowType type;
             if (typeStr == "WINDOW_MAIN") type = WINDOW_MAIN;
             else if (typeStr == "WINDOW_DEBUG") type = WINDOW_DEBUG;
             else if (typeStr == "WINDOW_GUI") type = WINDOW_GUI;
+            else if (typeStr == "WINDOW_HIERARCHY") type = WINDOW_HIERARCHY;
             else throw std::runtime_error("Invalid window type: " + typeStr);
 
-            Create(type, win["title"].get<std::string>().c_str(),
-                   win["width"].get<unsigned int>(), win["height"].get<unsigned int>());
+            std::string title = win.contains("title") && win["title"].is_string() ? win["title"].get<std::string>() : "";
+            unsigned int width = win.contains("width") && win["width"].is_number_unsigned() ? win["width"].get<unsigned int>() : DEF_WINDOW_W;
+            unsigned int height = win.contains("height") && win["height"].is_number_unsigned() ? win["height"].get<unsigned int>() : DEF_WINDOW_H;
+
+            Create(type, title.c_str(), width, height);
 
             MyWindow& window = windowList.back();
             if (!glXMakeCurrent(window.dpy, window.window, window.glContext)) {
                 throw std::runtime_error("Failed to make GLX context current");
             }
-            window.renderer->loadFromJSON(win);
-            window.renderer->init();
+            if (type != WINDOW_HIERARCHY) {
+                if (win.contains("shapes") && win["shapes"].is_array()) {
+                    window.renderer->loadFromJSON(win);
+                    window.renderer->init();
+                }
+            }
         }
     }
 
     void DrawAll() {
+        std::vector<Renderer*> renderers;
+        for (auto& window : windowList) {
+            if (window.type != WINDOW_HIERARCHY) {
+                renderers.push_back(window.renderer);
+            }
+        }
         while (state) {
             for (MyWindow& window : windowList) {
-                WindowDraw(&window, &state);
+                WindowDraw(&window, &state, renderers);
             }
             usleep(10000); // 10ms to avoid high CPU usage
         }

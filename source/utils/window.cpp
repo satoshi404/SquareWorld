@@ -1,13 +1,23 @@
 #include "window.h"
 #include <stdexcept>
 #include <string>
-#include <nlohmann/json.hpp>
+#include "nlohmann/json.hpp"
 #include <fstream>
 
-void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXContext sharedContext) {
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+
+#include <ventor/impl_glx.h>
+
+
+// Static ImGui context to be shared across all windows
+static bool g_ImGuiInitialized = false;
+
+void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXContext sharedContext, WindowType type) {
     if (!window) throw std::runtime_error("Window pointer is null");
     if (window->private0 == NOT_CREATED) throw std::runtime_error("Create Window first");
 
+    window->type = type;
     window->dpy = XOpenDisplay(nullptr);
     if (!window->dpy) throw std::runtime_error("Failed init X11");
 
@@ -31,7 +41,7 @@ void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXCo
 
     XSetWindowAttributes windowAttributes;
     windowAttributes.colormap = window->colormap;
-    windowAttributes.event_mask = ExposureMask | KeyPressMask;
+    windowAttributes.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
 
     window->window = XCreateWindow(
         window->dpy, RootWindow(window->dpy, window->screen), 0, 0, width, height, 0,
@@ -60,7 +70,6 @@ void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXCo
         throw std::runtime_error("Failed to make GLX context current");
     }
 
-    // Initialize GLEW
     GLenum err = glewInit();
     if (err != GLEW_OK) {
         glXDestroyContext(window->dpy, window->glContext);
@@ -71,7 +80,16 @@ void WindowInit(MyWindow* window, unsigned int width, unsigned int height, GLXCo
     }
 
     window->renderer = new Renderer(nullptr, nullptr);
-    // Renderer initialization is handled in WindowCreator::LoadFromJSON
+
+    // Initialize ImGui context and backends only once
+    if (!g_ImGuiInitialized) {
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        ImGui_ImplGLX_Init(window->dpy, window->window, window->glContext);
+        ImGui_ImplOpenGL3_Init("#version 330");
+        g_ImGuiInitialized = true;
+    }
     #endif
 
     window->initialised = 1;
@@ -89,7 +107,7 @@ void WindowShow(MyWindow* window) {
     XFlush(window->dpy);
 }
 
-void WindowDraw(MyWindow* window, int *state) {
+void WindowDraw(MyWindow* window, int *state, std::vector<Renderer*>& allRenderers) {
     #if CONTEXT_OPENGL
     if (!glXMakeCurrent(window->dpy, window->window, window->glContext)) {
         throw std::runtime_error("Failed to make GLX context current");
@@ -100,13 +118,22 @@ void WindowDraw(MyWindow* window, int *state) {
     glEnable(GL_DEPTH_TEST);
 
     window->renderer->render();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGLX_NewFrame();
+    window->renderer->setupImGui();
+    window->renderer->renderImGui(window->type == WINDOW_DEBUG, window->renderer->getFPS(), allRenderers);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     glXSwapBuffers(window->dpy, window->window);
     #endif
 
     while (XPending(window->dpy)) {
         XNextEvent(window->dpy, &window->event);
+        ImGui_ImplGLX_ProcessEvent(&window->event);
         if (window->event.type == KeyPress) {
-            *state = 0;
+            KeySym keysym = XLookupKeysym(&window->event.xkey, 0);
+            if (keysym == XK_Escape) {
+                *state = 0;
+            }
         }
     }
 }
