@@ -19,10 +19,10 @@ enum STATUS_LOOP {
 class Render {
     SDL_Window* window;
     SDL_Renderer* render;
-    std::vector<Bird*> entities; // Store pointers to Bird entities
+    std::vector<Bird*> entities;
     STATUS_LOOP status;
     SDL_Event event;
-    const float dt = 1.0f / 60.0f; // 60 FPS
+    const float dt = 1.0f / 60.0f;
 
 public:
     Render() : window(nullptr), render(nullptr), entities(), status(STOPED) {}
@@ -69,7 +69,6 @@ public:
         }
 
         while (status == RUNNING) {
-            // Handle input
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
                     status = STOPED;
@@ -84,7 +83,6 @@ public:
                 }
             }
 
-            // Update Lua
             sol::protected_function_result update_result = update(dt);
             if (!update_result.valid()) {
                 sol::error err = update_result;
@@ -92,15 +90,13 @@ public:
                 status = STOPED;
             }
 
-            // Render
-            SDL_SetRenderDrawColor(render, 0, 0, 0, 255); // Black background
+            SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
             SDL_RenderClear(render);
 
-            // Render entities
             for (Bird* entity : entities) {
                 auto pos = entity->GetPosition();
                 auto size = entity->GetSize();
-                SDL_SetRenderDrawColor(render, 255, 255, 0, 255); // Yellow bird
+                SDL_SetRenderDrawColor(render, 255, 255, 0, 255);
                 SDL_Rect rect = {
                     static_cast<int>(pos.x),
                     static_cast<int>(pos.y),
@@ -111,7 +107,7 @@ public:
             }
 
             SDL_RenderPresent(render);
-            SDL_Delay(1000 / 60); // ~60 FPS
+            SDL_Delay(1000 / 60);
         }
     }
 };

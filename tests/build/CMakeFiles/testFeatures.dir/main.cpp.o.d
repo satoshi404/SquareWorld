@@ -1,12 +1,8 @@
 CMakeFiles/testFeatures.dir/main.cpp.o: \
  /home/satoshi/Documentos/likeEngine/tests/main.cpp \
- /usr/include/stdc-predef.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/sol.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/version.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/config.hpp \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/timesize.h \
@@ -14,43 +10,18 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/bits/types.h \
- /usr/include/x86_64-linux-gnu/bits/typesizes.h \
- /usr/include/x86_64-linux-gnu/bits/time64.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/prologue.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/epilogue.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/detail/build_version.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/forward.hpp \
- /usr/include/c++/11/utility \
- /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
- /usr/include/c++/11/pstl/pstl_config.h \
- /usr/include/c++/11/bits/stl_relops.h \
- /usr/include/c++/11/bits/stl_pair.h /usr/include/c++/11/bits/move.h \
- /usr/include/c++/11/type_traits /usr/include/c++/11/compare \
- /usr/include/c++/11/concepts /usr/include/c++/11/initializer_list \
- /usr/include/c++/11/ext/numeric_traits.h \
- /usr/include/c++/11/bits/cpp_type_traits.h \
- /usr/include/c++/11/ext/type_traits.h /usr/include/c++/11/string_view \
- /usr/include/c++/11/iosfwd /usr/include/c++/11/bits/stringfwd.h \
+ /usr/include/c++/11/pstl/pstl_config.h /usr/include/c++/11/ostream \
+ /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
+ /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h /usr/include/c++/11/bits/postypes.h \
  /usr/include/c++/11/cwchar /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
@@ -58,10 +29,22 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/c++/11/exception /usr/include/c++/11/bits/exception.h \
+ /usr/include/c++/11/bits/exception_ptr.h \
+ /usr/include/c++/11/bits/exception_defines.h \
+ /usr/include/c++/11/bits/cxxabi_init_exception.h \
+ /usr/include/c++/11/typeinfo /usr/include/c++/11/bits/hash_bytes.h \
+ /usr/include/c++/11/new /usr/include/c++/11/bits/move.h \
+ /usr/include/c++/11/type_traits \
+ /usr/include/c++/11/bits/nested_exception.h \
  /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/c++/11/bits/functexcept.h \
- /usr/include/c++/11/bits/exception_defines.h \
+ /usr/include/c++/11/bits/cpp_type_traits.h \
+ /usr/include/c++/11/ext/type_traits.h \
+ /usr/include/c++/11/ext/numeric_traits.h \
+ /usr/include/c++/11/bits/stl_pair.h /usr/include/c++/11/compare \
+ /usr/include/c++/11/concepts \
  /usr/include/c++/11/bits/stl_iterator_base_types.h \
  /usr/include/c++/11/bits/iterator_concepts.h \
  /usr/include/c++/11/bits/ptr_traits.h \
@@ -69,44 +52,16 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/11/bits/concept_check.h \
  /usr/include/c++/11/debug/assertions.h \
- /usr/include/c++/11/bits/stl_iterator.h /usr/include/c++/11/new \
- /usr/include/c++/11/bits/exception.h \
+ /usr/include/c++/11/bits/stl_iterator.h \
  /usr/include/c++/11/bits/stl_construct.h \
  /usr/include/c++/11/debug/debug.h \
  /usr/include/c++/11/bits/predefined_ops.h /usr/include/c++/11/cstdint \
- /usr/include/c++/11/bits/functional_hash.h \
- /usr/include/c++/11/bits/hash_bytes.h \
- /usr/include/c++/11/bits/range_access.h \
- /usr/include/c++/11/bits/ostream_insert.h \
- /usr/include/c++/11/bits/cxxabi_forced.h \
- /usr/include/c++/11/bits/ranges_base.h \
- /usr/include/c++/11/bits/max_size_type.h /usr/include/c++/11/numbers \
- /usr/include/c++/11/bits/string_view.tcc \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/forward_detail.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/traits.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/tuple.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/base_traits.hpp \
- /usr/include/c++/11/tuple /usr/include/c++/11/array \
- /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/cstddef \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/bind_traits.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/pointer_like.hpp \
- /usr/include/c++/11/memory /usr/include/c++/11/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
- /usr/include/c++/11/ext/new_allocator.h \
- /usr/include/c++/11/bits/stl_uninitialized.h \
- /usr/include/c++/11/ext/alloc_traits.h \
- /usr/include/c++/11/bits/alloc_traits.h \
- /usr/include/c++/11/bits/stl_tempbuf.h \
- /usr/include/c++/11/bits/stl_raw_storage_iter.h \
- /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
- /usr/include/c++/11/bits/unique_ptr.h \
- /usr/include/c++/11/bits/stl_function.h \
- /usr/include/c++/11/backward/binders.h /usr/include/c++/11/ostream \
- /usr/include/c++/11/ios /usr/include/c++/11/exception \
- /usr/include/c++/11/bits/exception_ptr.h \
- /usr/include/c++/11/bits/cxxabi_init_exception.h \
- /usr/include/c++/11/typeinfo /usr/include/c++/11/bits/nested_exception.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/c++/11/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
  /usr/include/c++/11/clocale /usr/include/locale.h \
@@ -139,9 +94,17 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
  /usr/include/c++/11/bits/locale_classes.h /usr/include/c++/11/string \
+ /usr/include/c++/11/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+ /usr/include/c++/11/ext/new_allocator.h \
+ /usr/include/c++/11/bits/ostream_insert.h \
+ /usr/include/c++/11/bits/cxxabi_forced.h \
+ /usr/include/c++/11/bits/stl_function.h \
+ /usr/include/c++/11/backward/binders.h \
  /usr/include/c++/11/bits/stl_algo.h /usr/include/c++/11/cstdlib \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -154,9 +117,17 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/alloca.h /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/c++/11/bits/std_abs.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
- /usr/include/c++/11/bits/stl_heap.h \
+ /usr/include/c++/11/initializer_list /usr/include/c++/11/bits/stl_heap.h \
+ /usr/include/c++/11/bits/stl_tempbuf.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
+ /usr/include/c++/11/bits/range_access.h \
  /usr/include/c++/11/bits/basic_string.h \
+ /usr/include/c++/11/ext/alloc_traits.h \
+ /usr/include/c++/11/bits/alloc_traits.h /usr/include/c++/11/string_view \
+ /usr/include/c++/11/bits/functional_hash.h \
+ /usr/include/c++/11/bits/ranges_base.h \
+ /usr/include/c++/11/bits/max_size_type.h /usr/include/c++/11/numbers \
+ /usr/include/c++/11/bits/string_view.tcc \
  /usr/include/c++/11/ext/string_conversions.h /usr/include/c++/11/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
@@ -183,103 +154,16 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
- /usr/include/c++/11/bits/ostream.tcc \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/refwrap.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/ext/concurrence.h \
- /usr/include/c++/11/bits/shared_ptr_atomic.h \
- /usr/include/c++/11/bits/atomic_base.h \
- /usr/include/c++/11/bits/atomic_lockfree_defines.h \
- /usr/include/c++/11/bits/atomic_wait.h /usr/include/c++/11/climits \
- /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
- /usr/include/x86_64-linux-gnu/bits/environments.h \
- /usr/include/x86_64-linux-gnu/bits/confname.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h /usr/include/syscall.h \
- /usr/include/x86_64-linux-gnu/sys/syscall.h \
- /usr/include/x86_64-linux-gnu/asm/unistd.h \
- /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
- /usr/include/x86_64-linux-gnu/bits/syscall.h \
- /usr/include/c++/11/bits/std_mutex.h \
- /usr/include/c++/11/backward/auto_ptr.h \
- /usr/include/c++/11/bits/ranges_uninitialized.h \
- /usr/include/c++/11/bits/ranges_algobase.h /usr/include/c++/11/iterator \
- /usr/include/c++/11/bits/stream_iterator.h \
- /usr/include/c++/11/bits/uses_allocator_args.h \
- /usr/include/c++/11/pstl/glue_memory_defs.h \
- /usr/include/c++/11/pstl/execution_defs.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/string_view.hpp \
- /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
- /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
- /usr/include/c++/11/bits/hashtable_policy.h \
- /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/node_handle.h \
- /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/bits/erase_if.h /usr/include/c++/11/vector \
- /usr/include/c++/11/bits/stl_vector.h \
- /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/variant \
- /usr/include/c++/11/bits/parse_numbers.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/assert.hpp \
- /usr/include/c++/11/iostream /usr/include/c++/11/istream \
+ /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/bytecode.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/lua_version.hpp \
- /usr/include/lua5.3/lua.hpp /usr/include/lua5.3/lua.h \
- /usr/include/lua5.3/luaconf.h \
- /usr/include/x86_64-linux-gnu/lua5.3-deb-multiarch.h \
- /usr/include/lua5.3/lualib.h /usr/include/lua5.3/lauxlib.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.3.h \
- /usr/include/string.h /usr/include/strings.h /usr/include/lua5.3/lua.h \
- /usr/include/lua5.3/lauxlib.h /usr/include/lua5.3/lualib.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.3.c.h \
- /usr/include/c++/11/stdlib.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.4.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/trampoline.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/types.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/error.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/optional.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/in_place.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/optional_implementation.hpp \
- /usr/include/c++/11/optional \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/raii.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/policies.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/ebco.hpp \
- /usr/include/c++/11/limits /usr/include/c++/11/cstring \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_core.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/inheritance.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_traits.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/demangle.hpp \
- /usr/include/c++/11/locale \
- /usr/include/c++/11/bits/locale_facets_nonio.h /usr/include/c++/11/ctime \
- /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
- /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unique_usertype_traits.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/error_handler.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/reference.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_reference.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/tie.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_guard.hpp \
- /usr/include/c++/11/bitset /usr/include/c++/11/forward_list \
- /usr/include/c++/11/bits/forward_list.h \
- /usr/include/c++/11/bits/forward_list.tcc /usr/include/c++/11/algorithm \
- /usr/include/c++/11/bits/ranges_algo.h \
- /usr/include/c++/11/bits/ranges_util.h \
- /usr/include/c++/11/pstl/glue_algorithm_defs.h \
- /usr/include/c++/11/sstream /usr/include/c++/11/bits/sstream.tcc \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_unqualified.hpp \
- /usr/include/c++/11/cmath /usr/include/math.h \
+ /home/satoshi/Documentos/likeEngine/tests/source/render.h \
+ /usr/include/SDL2/SDL.h /usr/include/SDL2/SDL_main.h \
+ /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
+ /usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h \
+ /usr/include/SDL2/SDL_platform.h /usr/include/SDL2/begin_code.h \
+ /usr/include/SDL2/close_code.h /usr/include/c++/11/stdlib.h \
+ /usr/include/string.h /usr/include/strings.h /usr/include/inttypes.h \
+ /usr/include/c++/11/math.h /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
@@ -289,7 +173,8 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/tr1/gamma.tcc \
+ /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/limits \
+ /usr/include/c++/11/tr1/gamma.tcc \
  /usr/include/c++/11/tr1/special_function_util.h \
  /usr/include/c++/11/tr1/bessel_function.tcc \
  /usr/include/c++/11/tr1/beta_function.tcc \
@@ -301,82 +186,6 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_qualified.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get_unqualified.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/overload.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unicode.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/abort.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get_qualified.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get_unqualified.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get_qualified.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_push.hpp \
- /usr/include/c++/11/cassert /usr/include/assert.h \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_pop.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_field.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_probe.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/object.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/make_reference.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/object_base.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unsafe_function.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_result.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_function_result.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/proxy_base.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_iterator.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_proxy.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_proxy_base.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unsafe_function_result.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_core.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/wrapper.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_templated.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/call.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/property.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protect.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_stateless.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_stateful.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_overloaded.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/resolve.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/dump_handler.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_function.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_handler.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_core.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/deprecate.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_container_launch.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_container.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_storage.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_proxy.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/metatable.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_core.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_proxy.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_iterator.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/pairs_iterator.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack/detail/pairs.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/lua_table.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state_view.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/environment.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/load_result.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state_handling.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/lua_value.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/thread.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/coroutine.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/userdata.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/as_args.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/variadic_args.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/variadic_results.hpp \
- /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/as_returns.hpp \
- /home/satoshi/Documentos/likeEngine/tests/source/render.h \
- /usr/include/SDL2/SDL.h /usr/include/SDL2/SDL_main.h \
- /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
- /usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h \
- /usr/include/SDL2/SDL_platform.h /usr/include/SDL2/begin_code.h \
- /usr/include/SDL2/close_code.h /usr/include/inttypes.h \
- /usr/include/c++/11/math.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/include/SDL2/SDL_assert.h /usr/include/SDL2/SDL_atomic.h \
  /usr/include/SDL2/SDL_platform.h /usr/include/SDL2/SDL_audio.h \
@@ -484,5 +293,197 @@ CMakeFiles/testFeatures.dir/main.cpp.o: \
  /usr/include/SDL2/SDL_shape.h /usr/include/SDL2/SDL_system.h \
  /usr/include/SDL2/SDL_timer.h /usr/include/SDL2/SDL_version.h \
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
+ /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
+ /usr/include/c++/11/bits/stl_vector.h \
+ /usr/include/c++/11/bits/stl_bvector.h \
+ /usr/include/c++/11/bits/vector.tcc \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/sol.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/version.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/config.hpp \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/prologue.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/epilogue.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/detail/build_version.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/forward.hpp \
+ /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/forward_detail.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/traits.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/tuple.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/base_traits.hpp \
+ /usr/include/c++/11/tuple /usr/include/c++/11/array \
+ /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/cstddef \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/bind_traits.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/pointer_like.hpp \
+ /usr/include/c++/11/memory \
+ /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
+ /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/bits/allocated_ptr.h \
+ /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/ext/aligned_buffer.h \
+ /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/shared_ptr_atomic.h \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/11/bits/atomic_wait.h /usr/include/c++/11/climits \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+ /usr/include/x86_64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/11/bits/std_mutex.h \
+ /usr/include/c++/11/backward/auto_ptr.h \
+ /usr/include/c++/11/bits/ranges_uninitialized.h \
+ /usr/include/c++/11/bits/ranges_algobase.h /usr/include/c++/11/iterator \
+ /usr/include/c++/11/bits/stream_iterator.h \
+ /usr/include/c++/11/bits/uses_allocator_args.h \
+ /usr/include/c++/11/pstl/glue_memory_defs.h \
+ /usr/include/c++/11/pstl/execution_defs.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/string_view.hpp \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
+ /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/node_handle.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/include/c++/11/variant \
+ /usr/include/c++/11/bits/parse_numbers.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/assert.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/bytecode.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/lua_version.hpp \
+ /usr/include/lua5.3/lua.hpp /usr/include/lua5.3/lua.h \
+ /usr/include/lua5.3/luaconf.h \
+ /usr/include/x86_64-linux-gnu/lua5.3-deb-multiarch.h \
+ /usr/include/lua5.3/lualib.h /usr/include/lua5.3/lauxlib.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.3.h \
+ /usr/include/lua5.3/lua.h /usr/include/lua5.3/lauxlib.h \
+ /usr/include/lua5.3/lualib.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.3.c.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/compatibility/compat-5.4.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/trampoline.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/types.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/error.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/optional.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/in_place.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/optional_implementation.hpp \
+ /usr/include/c++/11/optional \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/raii.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/policies.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/ebco.hpp \
+ /usr/include/c++/11/cstring \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_core.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/inheritance.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_traits.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/demangle.hpp \
+ /usr/include/c++/11/locale \
+ /usr/include/c++/11/bits/locale_facets_nonio.h /usr/include/c++/11/ctime \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/11/bits/locale_conv.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unique_usertype_traits.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/error_handler.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/reference.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_reference.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/tie.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_guard.hpp \
+ /usr/include/c++/11/bitset /usr/include/c++/11/forward_list \
+ /usr/include/c++/11/bits/forward_list.h \
+ /usr/include/c++/11/bits/forward_list.tcc /usr/include/c++/11/algorithm \
+ /usr/include/c++/11/bits/ranges_algo.h \
+ /usr/include/c++/11/bits/ranges_util.h \
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/sstream /usr/include/c++/11/bits/sstream.tcc \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_unqualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_qualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get_unqualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/overload.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unicode.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/abort.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_get_qualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get_unqualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_check_get_qualified.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_push.hpp \
+ /usr/include/c++/11/cassert /usr/include/assert.h \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_pop.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_field.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_probe.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/object.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/make_reference.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/object_base.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unsafe_function.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_result.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_function_result.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/proxy_base.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_iterator.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_proxy.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack_proxy_base.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/unsafe_function_result.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_core.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/wrapper.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_templated.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/call.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/property.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protect.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_stateless.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_stateful.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/function_types_overloaded.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/resolve.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/dump_handler.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_function.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/protected_handler.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_core.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/deprecate.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_container_launch.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_container.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_storage.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/usertype_proxy.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/metatable.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_core.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_proxy.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table_iterator.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/pairs_iterator.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/stack/detail/pairs.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/table.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/lua_table.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state_view.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/environment.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/load_result.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/state_handling.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/lua_value.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/thread.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/coroutine.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/userdata.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/as_args.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/variadic_args.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/variadic_results.hpp \
+ /home/satoshi/Documentos/likeEngine/tests/../thirdparty/sol/as_returns.hpp \
  /home/satoshi/Documentos/likeEngine/tests/source/bird.h \
+ /home/satoshi/Documentos/likeEngine/tests/source/register.h \
  /home/satoshi/Documentos/likeEngine/tests/source/bird.h
