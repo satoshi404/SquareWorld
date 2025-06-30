@@ -12,8 +12,8 @@ add_executable(YourProject
     source/main.cpp
     source/utils/window.cpp
     source/utils/renderer.cpp
-        source/utils/spotlight.cpp
-            source/utils/mesh.cpp
+    source/utils/spotlight.cpp
+    source/utils/mesh.cpp
     source/utils/gamecamera.cpp
     source/utils/shape.cpp
     source/utils/camera.cpp

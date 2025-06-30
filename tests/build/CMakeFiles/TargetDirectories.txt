@@ -1,0 +1,3 @@
+/home/satoshi/Documentos/likeEngine/tests/build/CMakeFiles/testFeatures.dir
+/home/satoshi/Documentos/likeEngine/tests/build/CMakeFiles/edit_cache.dir
+/home/satoshi/Documentos/likeEngine/tests/build/CMakeFiles/rebuild_cache.dir

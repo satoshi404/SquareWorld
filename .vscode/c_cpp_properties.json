@@ -4,7 +4,9 @@
             "name": "linux-gcc-x64",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/thirdparty"
+                "${workspaceFolder}/thirdparty",
+                "/usr/include/lua5.3/",
+                "${workspaceFolder}/tests/source"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "${default}",
@@ -12,7 +14,8 @@
             "intelliSenseMode": "linux-gcc-x64",
             "compilerArgs": [
                 ""
-            ]
+            ],
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4
